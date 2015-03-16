@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using TextAdventure.Domain;
+using TextAdventure.Infrastructure;
 
 namespace TextAdventure.UnitTests
 {
@@ -35,6 +36,9 @@ namespace TextAdventure.UnitTests
             var landing = new GameLocation("The landing");
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo,landing);
 
+            Assert.IsNotNull(bedroom.ID);
+            Assert.IsNotNull(mainCharacter.ID);
+
             //Assert.AreEqual(bedroom.Contains(), "Bedroom");
             //Assert.AreEqual(bedroomDoor.IsWithin().Title, "Bedroom");
             
@@ -42,16 +46,13 @@ namespace TextAdventure.UnitTests
             //Assert.AreEqual(mainCharacter.IsWithin().Title, "The landing");
             //Assert.AreEqual(bedroomDoor.IsWithin().Title, "Bedroom");
 
-            //test JSON file
-            string json = JsonConvert.SerializeObject(bedroom);
+            LocationRepository repository = new LocationRepository();
 
-            //test additional comment
+            // Save bedroom to file
+            repository.SaveLocation(bedroom);
 
-            //write string to file
-            System.IO.File.WriteAllText(@"C:\Users\Public\Log\json.txt", json);
-
+            // Read bedroom from file
+            GameLocation bedroomReadFromFile = repository.GetLocation(bedroom.ID.ToString());
         }
-
-
     }
 }

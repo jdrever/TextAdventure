@@ -61,6 +61,14 @@
       <Project>{47e98b8d-c367-4fe6-94de-3676f00dfa9a}</Project>
       <Name>TextAdventure.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TextAdventure.Infrastructure\TextAdventure.Infrastructure.csproj">
+      <Project>{3408a9d5-ce6c-4d2f-aa7d-9ab84dc5a3e9}</Project>
+      <Name>TextAdventure.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextAdventure\TextAdventure.Interface.csproj">
+      <Project>{de25544f-02d5-4f4b-8bed-3b766fb3011b}</Project>
+      <Name>TextAdventure.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
