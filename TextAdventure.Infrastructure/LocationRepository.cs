@@ -11,6 +11,7 @@ namespace TextAdventure.Infrastructure
     {
         public GameLocation GetLocation(string locationId)
         {
+            //TODO: put the file in a project directory
             string json = System.IO.File.ReadAllText(String.Format(@"C:\Users\Public\Log\{0}.txt", locationId));
 
             return JsonConvert.DeserializeObject<GameLocation>(json, new JsonSerializerSettings

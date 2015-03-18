@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCoordinator.cs" />
     <Compile Include="CommandActioner.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
