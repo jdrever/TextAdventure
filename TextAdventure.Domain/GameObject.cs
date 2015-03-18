@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace TextAdventure.Domain
 {
     public class GameBaseObject
     {
+        public Guid ID;
+
+        public GameBaseObject()
+        {
+            ID = Guid.NewGuid();
+        }
 
         public string Name { get; set; }
         public string Description { get; set; }
@@ -20,11 +27,9 @@ namespace TextAdventure.Domain
                 Relationships=new List<GameObjectRelationship>();
             Relationships.Add(new GameObjectRelationship(relationshipType, relationshipTo));
         }
-
-        
-
     }
 
+    
     public class GameContainer : GameBaseObject
     {
         public string CurrencyType { get; set; }
@@ -42,8 +47,9 @@ namespace TextAdventure.Domain
     {
         public GameObject()
         {
-            
+
         }
+
         public GameObject(string name)
         {
             Name = name;
@@ -56,12 +62,22 @@ namespace TextAdventure.Domain
 
     public class GameCharacter : GameBaseObject
     {
+        //TODO: override Name to return FirstName+" "+Surname
         public GameCharacter(string firstName, string surname)
         {
             FirstName = firstName;
             Surname = surname;
         }
-
+	
+        // Will this work?
+	    public new string Name
+	    {
+		get
+		    {
+			    return this.FirstName + " " + this.Surname;
+		    }
+	    }
+	
         public string Gender { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
@@ -95,7 +111,7 @@ namespace TextAdventure.Domain
         Contains = 0,
         LeadsTo = 1,
         IsHeldBy = 2,
-        IsUnder =3,
+        IsUnder = 3,
 
     }
 
