@@ -26,6 +26,8 @@ namespace TextAdventure.Infrastructure
                 TypeNameHandling = TypeNameHandling.Objects,
                 TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
             });
+
+            //TODO: put the file in a project directory
             string fileDir = String.Format(@"C:\Users\Public\Log\{0}.txt", location.ID.ToString());
 
             System.IO.File.WriteAllText(fileDir, json);
