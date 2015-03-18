@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Interface", "TextAdventure\TextAdventure.Interface.csproj", "{DE25544F-02D5-4F4B-8BED-3B766FB3011B}"
 EndProject
@@ -33,6 +33,7 @@ Global
 		{82C82BCD-B170-4C93-9E77-B5B6198B1173}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

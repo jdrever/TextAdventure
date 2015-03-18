@@ -45,14 +45,6 @@ namespace TextAdventure.UnitTests
             //mainCharacter.MoveTo(landing);
             //Assert.AreEqual(mainCharacter.IsWithin().Title, "The landing");
             //Assert.AreEqual(bedroomDoor.IsWithin().Title, "Bedroom");
-
-            LocationRepository repository = new LocationRepository();
-
-            // Save bedroom to file
-            repository.SaveLocation(bedroom);
-
-            // Read bedroom from file
-            GameLocation bedroomReadFromFile = repository.GetLocation(bedroom.ID.ToString());
         }
     }
 }
