@@ -30,6 +30,9 @@ namespace TextAdventure.Domain
 
         public bool HasRelationshipWith(GameBaseObject baseObject, RelationshipType type)
         {
+            if (Relationships == null)
+                return false;
+
             var objectRelationship = new GameObjectRelationship(type, baseObject);
 
             if (Relationships.Contains(objectRelationship))
