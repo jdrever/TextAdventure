@@ -13,12 +13,12 @@ namespace TextAdventure.Infrastructure
 
         public GameObject GetObject(string objectName, GameLocation location)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public GameCharacter GetCharacter(string characterName, GameLocation location)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }

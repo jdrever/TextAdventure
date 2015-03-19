@@ -7,6 +7,7 @@ namespace TextAdventure.Application
     {
         public CommandOperationStatus Take(string objectName, string characterName)
         {
+            
             throw new System.NotImplementedException();
         }
     }

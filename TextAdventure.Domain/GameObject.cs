@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace TextAdventure.Domain
 {
-    public class GameBaseObject
+    public class GameBaseObject 
     {
         public Guid ID;
 
@@ -26,6 +26,16 @@ namespace TextAdventure.Domain
             if (Relationships==null)
                 Relationships=new List<GameObjectRelationship>();
             Relationships.Add(new GameObjectRelationship(relationshipType, relationshipTo));
+        }
+
+        public bool HasRelationshipWith(GameBaseObject baseObject, RelationshipType type)
+        {
+            var objectRelationship = new GameObjectRelationship(type, baseObject);
+
+            if (Relationships.Contains(objectRelationship))
+                return true;
+            else
+                return false;
         }
     }
 

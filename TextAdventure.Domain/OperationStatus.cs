@@ -15,4 +15,9 @@ namespace TextAdventure.Domain
     public class CommandOperationStatus : OperationStatus
     {
     }
+
+    public class LocationOperationStatus : OperationStatus
+    {
+        public GameLocation location { get; set; }
+    }
 }
