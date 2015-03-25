@@ -9,15 +9,15 @@ namespace TextAdventure.Application
     {
         public CommandOperationStatus Take(GameObject gameobject, GameObject character)
         {
-            var status=new CommandOperationStatus();
+            var status = new CommandOperationStatus();
             //RemoveLocationRelationships(gameobject);
-            gameobject.AddRelationship(RelationshipType.IsHeldBy,character);
+            gameobject.AddRelationship(RelationshipType.IsHeldBy, character);
             return status;
         }
 
         private void RemoveLocationRelationships(GameObject gameobject)
         {
-            //gameobject.Relationships.ToList().RemoveAll(x => x.RelationshipType==RelationshipType.IsWithin||x.RelationshipType==RelationshipType.IsUnder).
+            gameobject.Relationships.ToList().RemoveAll(x => x.RelationshipType==RelationshipType.IsWithin||x.RelationshipType==RelationshipType.IsUnder).
     
         }
     }

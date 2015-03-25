@@ -10,13 +10,15 @@ namespace TextAdventure.Infrastructure
 {
     public class ObjectRepository : IObjectRepository
     {
-
-        public GameObject GetObject(string objectName, GameLocation location)
+        public GameObject GetObject(Guid objectID, GameLocation location)
         {
-            throw new System.NotImplementedException();
+            // Needs to get all objects with which the location has a "contains" relationship with.
+
+            // Find something that doesn't return whether the object exists, but the actual object.
+            return location.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID ==  objectID);
         }
 
-        public GameCharacter GetCharacter(string characterName, GameLocation location)
+        public GameCharacter GetCharacter(Guid characterID, GameLocation location)
         {
             throw new System.NotImplementedException();
         }

@@ -30,12 +30,13 @@ namespace TextAdventure.Domain
 
         public bool HasRelationshipWith(GameBaseObject baseObject, RelationshipType type)
         {
-            if (Relationships == null)
+            if (this.Relationships == null)
                 return false;
 
             var objectRelationship = new GameObjectRelationship(type, baseObject);
 
-            if (Relationships.Contains(objectRelationship))
+            // Identifies object equality by ID. Doesn't work otherwise.
+            if (this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID))
                 return true;
             else
                 return false;
