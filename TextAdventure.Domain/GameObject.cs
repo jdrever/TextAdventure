@@ -35,11 +35,9 @@ namespace TextAdventure.Domain
 
             var objectRelationship = new GameObjectRelationship(type, baseObject);
 
-            // Identifies object equality by ID. Doesn't work otherwise.
-            if (this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID))
-                return true;
-            else
-                return false;
+            // Identifies object equality by ID. Doesn't work otherwise (weeeeelll... OK, it does, but for something like 
+            // this we might as well use the ID.).
+            return this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
         }
     }
 
@@ -76,20 +74,19 @@ namespace TextAdventure.Domain
 
     public class GameCharacter : GameBaseObject
     {
-        //TODO: override Name to return FirstName+" "+Surname
+        // TODO = done - but now you cannot set Name. Problem?
         public GameCharacter(string firstName, string surname)
         {
             FirstName = firstName;
             Surname = surname;
         }
 	
-        // Will this work?
 	    public new string Name
 	    {
-		get
-		    {
-			    return this.FirstName + " " + this.Surname;
-		    }
+		    get
+		        {
+		    	    return this.FirstName + " " + this.Surname;
+		        }
 	    }
 	
         public string Gender { get; set; }

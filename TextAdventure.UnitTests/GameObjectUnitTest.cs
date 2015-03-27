@@ -36,7 +36,11 @@ namespace TextAdventure.UnitTests
             var landing = new GameLocation("The landing");
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo,landing);
 
+            var objectRepository = new ObjectRepository();
+
             Assert.IsTrue(bedroom.HasRelationshipWith(bedroomDoor, RelationshipType.Contains));
+
+            Assert.AreEqual(objectRepository.GetObject(landing.Name, bedroom), bedroomDoor);
 
             //Assert.AreEqual(bedroom.Contains(), "Bedroom");
             //Assert.AreEqual(bedroomDoor.IsWithin().Title, "Bedroom");

@@ -17,8 +17,11 @@ namespace TextAdventure.Application
 
         private void RemoveLocationRelationships(GameObject gameobject)
         {
-            gameobject.Relationships.ToList().RemoveAll(x => x.RelationshipType==RelationshipType.IsWithin||x.RelationshipType==RelationshipType.IsUnder).
-    
+            //gameobject.Relationships.ToList().RemoveAll
+            //    (GameObjectRelationship => 
+            //    GameObjectRelationship.RelationshipType==RelationshipType.Contains
+            //    ||GameObjectRelationship.RelationshipType==RelationshipType.IsUnder).
+            //
         }
     }
 }
