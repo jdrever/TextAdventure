@@ -10,30 +10,39 @@ namespace TextAdventure.Infrastructure
 {
     public class ObjectRepository : IObjectRepository
     {
+        /// <summary>
+        /// Will return null if no such object exists
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
         public GameObject GetObject(string objectName, GameLocation location)
         {
-            var gameObject = (GameObject)location.Relationships.First
-                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName 
+            if (location.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && GameObjectRelationship.RelationshipType == RelationshipType.Contains))
+            {
+                var gameObject = (GameObject)location.Relationships.First
+                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName
                     && GameObjectRelationship.RelationshipType == RelationshipType.Contains)
                     .RelationshipTo;
-            //if (gameObject != null)
                 return gameObject;
-            //else:
-            //  find any object within location (specifically those that are within other objects)
-            //  whose name is equal to objectName
+            }
+            else
+            {
+                return null; 
+            }
         }
 
         // Grr... dunno
-        public GameBaseObject foo(GameLocation location)
-        {
-            List<GameBaseObject> objects = new List<GameBaseObject>();
-
-            foreach (GameObjectRelationship relationship in location.Relationships)
-                if (relationship.RelationshipType == RelationshipType.Contains)
-
-            
-            return foo();
-        }
+        //public GameBaseObject foo(GameLocation location)
+        //{
+        //    List<GameBaseObject> objects = new List<GameBaseObject>();
+        //
+        //    foreach (GameObjectRelationship relationship in location.Relationships)
+        //        if (relationship.RelationshipType == RelationshipType.Contains)
+        //
+        //    
+        //    return foo(location);
+        //}
 
         // TODO: do the same for GetCharacter() what will have been done to GetObject()
         public GameCharacter GetCharacter(string characterName, GameLocation location)

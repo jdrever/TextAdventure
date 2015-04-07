@@ -35,8 +35,8 @@ namespace TextAdventure.Domain
 
             var objectRelationship = new GameObjectRelationship(type, baseObject);
 
-            // Identifies object equality by ID. Doesn't work otherwise (weeeeelll... OK, it does, but for something like 
-            // this we might as well use the ID.).
+            // Identifies object equality by ID. 
+            // Returns whether the object's Relationships contains a relationship with the other object. 
             return this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
         }
     }
