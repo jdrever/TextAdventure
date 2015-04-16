@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using TextAdventure.Domain;
@@ -30,20 +33,18 @@ namespace TextAdventure.UnitTests
             wallet.AddRelationship(RelationshipType.IsUnder, bed);
 
             var money = new GameCurrencyObject("Money",10);
-            wallet.AddRelationship(RelationshipType.Contains,money);
+            wallet.AddRelationship(RelationshipType.Contains, money);
 
             var bedroomDoor=new GameObject("Bedroom Door");
             bedroom.AddRelationship(RelationshipType.Contains, bedroomDoor);
 
             var landing = new GameLocation("The landing");
             landing.Description = "Area of carpeted land outside bedroom door";
-            bedroomDoor.AddRelationship(RelationshipType.LeadsTo,landing);
+            bedroomDoor.AddRelationship(RelationshipType.LeadsTo, landing);
 
             var objectRepository = new ObjectRepository();
 
-            Assert.IsTrue(bedroom.HasRelationshipWith(bedroomDoor, RelationshipType.Contains));
-
-            Assert.AreEqual(objectRepository.GetObject(bed.Name, bedroom), bed);
+            Assert.AreEqual(objectRepository.GetObject(wallet.Name, bedroom), wallet);
 
             // Updates based on code that was once here:
             //HasRelationshipWith sort of replaces IsWithin and the like.

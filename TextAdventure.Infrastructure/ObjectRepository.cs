@@ -11,64 +11,48 @@ namespace TextAdventure.Infrastructure
     public class ObjectRepository : IObjectRepository
     {    
 
-        public GameObject GetObject(string objectName, GameLocation location)
+        public GameObject GetObject(string objectName, GameBaseObject baseObject)
         {
-            var tryFirstLevel=GetObject(objectName,location);
-            if (tryFirstLevel != null)
-                return tryFirstLevel;
+            if (baseObject.Relationships == null)
+                baseObject.Relationships = new List<GameObjectRelationship>();
+            
 
-            // This might work?
-            foreach (GameObject gameObject in 
-                from ObjectRelationship in location.Relationships 
-                where ObjectRelationship.RelationshipType == RelationshipType.Contains
-                || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                || ObjectRelationship.RelationshipType == RelationshipType.IsUnder
-                select ObjectRelationship.RelationshipTo)
-            {
-                var tryFindObject = GetObject(objectName, gameObject);
+            // get child nodes
+            var childObjects = GetChildObjects(baseObject);
 
-            }
+            // check if they are the searched for node
+            foreach (GameObject gameObject in childObjects)
+                // if yes return node
+                if (CheckObject(objectName, gameObject))
+                    return gameObject;
+                // if not, repeat
+                else
+                    return GetObject(objectName, gameObject);
+
+            return null;
         }
 
-
-        private GameObject FindObject(string objectName, GameBaseObject baseObject)
+        private List<GameBaseObject> GetChildObjects(GameBaseObject gameObject)
         {
-            // If object is there...
-            if (baseObject.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && (GameObjectRelationship.RelationshipType == RelationshipType.Contains || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)))
-            {
-                // Return object
-                return (GameObject)baseObject.Relationships.First
-                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName
-                    && (GameObjectRelationship.RelationshipType == RelationshipType.Contains
-                    || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                    || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)).RelationshipTo;
-            }
-            // Otherwise...
+            // Get all child objects
+            List<GameBaseObject> allChildObjects = (from ObjectRelationship in gameObject.Relationships
+                                  where ObjectRelationship.RelationshipTo is GameObject
+                                  && ObjectRelationship.RelationshipType == RelationshipType.Contains
+                                  || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
+                                  || ObjectRelationship.RelationshipType == RelationshipType.IsUnder
+                                  select ObjectRelationship.RelationshipTo).ToList<GameBaseObject>();
+
+            // Get those that are of type GameObject and
+            // return those
+            return allChildObjects;
+        }
+
+        private bool CheckObject(string objectName, GameBaseObject gameObject)
+        {
+            if (gameObject.Name == objectName)
+                return true;
             else
-            {
-                return null;
-            }
-
-            if (baseObject.Relationships == null)
-            {
-                throw new Exception("Null relationship list.");
-            }
-
-            // If object is there...
-            if (baseObject.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && (GameObjectRelationship.RelationshipType == RelationshipType.Contains|| GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy|| GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)))
-            {
-                // Return object
-                return (GameObject)baseObject.Relationships.First
-                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName
-                    && (GameObjectRelationship.RelationshipType == RelationshipType.Contains
-                    || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                    || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)).RelationshipTo;
-            }
-            // Otherwise...
-            else
-            {
-
-            }
+                return false;
         }
 
         // TODO: do the same for GetCharacter() what will have been done to GetObject()
