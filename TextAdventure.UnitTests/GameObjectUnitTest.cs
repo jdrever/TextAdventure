@@ -47,7 +47,8 @@ namespace TextAdventure.UnitTests
 
             // Updates based on code that was once here:
             //HasRelationshipWith sort of replaces IsWithin and the like.
-            //TODO: character.Move
+            //TODO: character.Move (way of updating the location the contains the character)
+            //local positions? e.g. in room by door => in room by bed
         }
     }
 }

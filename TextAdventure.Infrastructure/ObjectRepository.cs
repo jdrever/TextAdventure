@@ -9,45 +9,67 @@ using TextAdventure.Interface;
 namespace TextAdventure.Infrastructure
 {
     public class ObjectRepository : IObjectRepository
-    {
-        /// <summary>
-        /// Will return null if no such object exists
-        /// </summary>
-        /// <param name="objectName"></param>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        public GameObject GetObject(string objectName, GameLocation location)
+    {    
+
+        public GameObject FindObject(string objectName, GameLocation location)
         {
-            if (location.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && GameObjectRelationship.RelationshipType == RelationshipType.Contains))
+            var tryFirstLevel=GetObject(objectName,location);
+            if (tryFirstLevel != null)
+                return tryFirstLevel;
+
+            // We are here
+            foreach (var gameObject in location.Relationships)
             {
-                var gameObject = (GameObject)location.Relationships.First
-                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName
-                    && GameObjectRelationship.RelationshipType == RelationshipType.Contains)
-                    .RelationshipTo;
-                return gameObject;
-            }
-            else
-            {
-                return null; 
+                var tryFindObject = GetObject(objectName, gameObject);
+
             }
         }
 
-        // Grr... dunno
-        //public GameBaseObject foo(GameLocation location)
-        //{
-        //    List<GameBaseObject> objects = new List<GameBaseObject>();
-        //
-        //    foreach (GameObjectRelationship relationship in location.Relationships)
-        //        if (relationship.RelationshipType == RelationshipType.Contains)
-        //
-        //    
-        //    return foo(location);
-        //}
+
+        private GameObject GetObject(string objectName, GameBaseObject baseObject)
+        {
+            // If object is there...
+            if (baseObject.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && (GameObjectRelationship.RelationshipType == RelationshipType.Contains || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)))
+            {
+                // Return object
+                return (GameObject)baseObject.Relationships.First
+                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName
+                    && (GameObjectRelationship.RelationshipType == RelationshipType.Contains
+                    || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
+                    || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)).RelationshipTo;
+            }
+            // Otherwise...
+            else
+            {
+                return null;
+            }
+
+            if (baseObject.Relationships == null)
+            {
+                throw new Exception("Null relationship list.");
+            }
+
+            // If object is there...
+            if (baseObject.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && (GameObjectRelationship.RelationshipType == RelationshipType.Contains|| GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy|| GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)))
+            {
+                // Return object
+                return (GameObject)baseObject.Relationships.First
+                (GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName
+                    && (GameObjectRelationship.RelationshipType == RelationshipType.Contains
+                    || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
+                    || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)).RelationshipTo;
+            }
+            // Otherwise...
+            else
+            {
+
+            }
+        }
 
         // TODO: do the same for GetCharacter() what will have been done to GetObject()
-        public GameCharacter GetCharacter(string characterName, GameLocation location)
+        public GameCharacter GetCharacter(string characterName, GameBaseObject baseObject)
         {
-            return (GameCharacter)location.Relationships.First(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == characterName).RelationshipTo;
+            return (GameCharacter)baseObject.Relationships.First(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == characterName).RelationshipTo;
         }
     }
 }
