@@ -11,14 +11,19 @@ namespace TextAdventure.Infrastructure
     public class ObjectRepository : IObjectRepository
     {    
 
-        public GameObject FindObject(string objectName, GameLocation location)
+        public GameObject GetObject(string objectName, GameLocation location)
         {
             var tryFirstLevel=GetObject(objectName,location);
             if (tryFirstLevel != null)
                 return tryFirstLevel;
 
-            // We are here
-            foreach (var gameObject in location.Relationships)
+            // This might work?
+            foreach (GameObject gameObject in 
+                from ObjectRelationship in location.Relationships 
+                where ObjectRelationship.RelationshipType == RelationshipType.Contains
+                || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
+                || ObjectRelationship.RelationshipType == RelationshipType.IsUnder
+                select ObjectRelationship.RelationshipTo)
             {
                 var tryFindObject = GetObject(objectName, gameObject);
 
@@ -26,7 +31,7 @@ namespace TextAdventure.Infrastructure
         }
 
 
-        private GameObject GetObject(string objectName, GameBaseObject baseObject)
+        private GameObject FindObject(string objectName, GameBaseObject baseObject)
         {
             // If object is there...
             if (baseObject.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == objectName && (GameObjectRelationship.RelationshipType == RelationshipType.Contains || GameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder)))
