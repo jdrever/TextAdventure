@@ -19,28 +19,28 @@ namespace TextAdventure.UnitTests
 
             var bedroom=new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
-            entireWorld.AddRelationship(RelationshipType.Contains, bedroom);
+            entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
             var mainCharacter = new GameCharacter("Alife","Drever");
             mainCharacter.Gender = "Male";
-            bedroom.AddRelationship(RelationshipType.Contains, mainCharacter);
+            bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, mainCharacter);
 
             var bed = new GameObject("Bed");
-            bedroom.AddRelationship(RelationshipType.Contains, bed);
+            bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bed);
 
             var wallet = new GameObject("Wallet");
-            wallet.IsOpenable = true; 
-            wallet.AddRelationship(RelationshipType.IsUnder, bed);
+            wallet.IsOpenable = true;
+            wallet.AddRelationship(RelationshipType.IsUnder, RelationshipDirection.ChildToParent, bed);
 
             var money = new GameCurrencyObject("Money",10);
-            wallet.AddRelationship(RelationshipType.Contains, money);
+            wallet.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, money);
 
             var bedroomDoor=new GameObject("Bedroom Door");
-            bedroom.AddRelationship(RelationshipType.Contains, bedroomDoor);
+            bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroomDoor);
 
             var landing = new GameLocation("The landing");
             landing.Description = "Area of carpeted land outside bedroom door";
-            bedroomDoor.AddRelationship(RelationshipType.LeadsTo, landing);
+            bedroomDoor.AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, landing);
 
             var objectRepository = new ObjectRepository();
 

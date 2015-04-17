@@ -21,19 +21,33 @@ namespace TextAdventure.Domain
 
         public IList<GameObjectRelationship> Relationships { get; set; }
 
-        public void AddRelationship(RelationshipType relationshipType, GameBaseObject relationshipTo)
+        public void AddRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
         {
+            // if null instanciate Relationships
             if (Relationships==null)
-                Relationships=new List<GameObjectRelationship>();
-            Relationships.Add(new GameObjectRelationship(relationshipType, relationshipTo));
+                Relationships = new List<GameObjectRelationship>();
+
+            // if relationshipTo's Relationships is null instanciate Relationships
+            if (relationshipTo.Relationships == null)
+                relationshipTo.Relationships = new List<GameObjectRelationship>();
+
+            // add new relationship
+            Relationships.Add(new GameObjectRelationship(relationshipType, relationshipDirection, relationshipTo));
+
+            // add other type of relationship
+            if (relationshipDirection == RelationshipDirection.ParentToChild)
+                relationshipTo.Relationships.Add(new GameObjectRelationship(relationshipType, RelationshipDirection.ChildToParent, this));
+            else if (relationshipDirection == RelationshipDirection.ChildToParent)
+                relationshipTo.Relationships.Add(new GameObjectRelationship(relationshipType, RelationshipDirection.ParentToChild, this));
+
         }
 
-        public bool HasRelationshipWith(GameBaseObject baseObject, RelationshipType type)
+        public bool HasRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
         {
             if (this.Relationships == null)
                 return false;
 
-            var objectRelationship = new GameObjectRelationship(type, baseObject);
+            var objectRelationship = new GameObjectRelationship(type, direction, baseObject);
 
             // Identifies object equality by ID. 
             // Returns whether the object's Relationships contains a relationship with the other object. 
@@ -107,13 +121,15 @@ namespace TextAdventure.Domain
 
     public class GameObjectRelationship
     {
-        public GameObjectRelationship(RelationshipType relationshipType, GameBaseObject relationshipTo)
+        public GameObjectRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
         {
             RelationshipType = relationshipType;
+            RelationshipDirection = relationshipDirection;
             RelationshipTo = relationshipTo;
         }
 
         public RelationshipType RelationshipType { get; set; }
+        public RelationshipDirection RelationshipDirection { get; set; }
         public GameBaseObject RelationshipTo { get; set; } 
     }
 
@@ -123,14 +139,19 @@ namespace TextAdventure.Domain
         LeadsTo = 1,
         IsHeldBy = 2,
         IsUnder = 3,
+    }
 
+    public enum RelationshipDirection
+    {
+        ParentToChild = 0,
+        ChildToParent = 1
     }
 
     public enum ObjectType
     {
-        GameContainer=0,
-        Location=1,
-        Object=2,
-        Character=3
+        GameContainer = 0,
+        Location = 1,
+        Object = 2,
+        Character = 3
     }
 }

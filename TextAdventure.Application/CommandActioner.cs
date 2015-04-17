@@ -11,7 +11,7 @@ namespace TextAdventure.Application
         {
             var status = new CommandOperationStatus();
             //RemoveLocationRelationships(gameobject);
-            gameobject.AddRelationship(RelationshipType.IsHeldBy, character);
+            gameobject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, character);
             return status;
         }
 

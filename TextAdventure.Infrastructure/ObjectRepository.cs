@@ -9,13 +9,11 @@ using TextAdventure.Interface;
 namespace TextAdventure.Infrastructure
 {
     public class ObjectRepository : IObjectRepository
-    {    
-
+    {
         public GameObject GetObject(string objectName, GameBaseObject baseObject)
         {
             if (baseObject.Relationships == null)
                 baseObject.Relationships = new List<GameObjectRelationship>();
-            
 
             // get child nodes
             var childObjects = GetChildObjects(baseObject);
@@ -28,6 +26,27 @@ namespace TextAdventure.Infrastructure
                 // if not, repeat
                 else
                     return GetObject(objectName, gameObject);
+                
+
+            return null;
+        }
+        
+        public GameCharacter GetCharacter(string characterName, GameBaseObject baseObject)
+        {
+            if (baseObject.Relationships == null)
+                baseObject.Relationships = new List<GameObjectRelationship>();
+
+            // get child nodes
+            var childObjects = GetChildObjects(baseObject);
+
+            // check if they are the searched for node
+            foreach (GameCharacter gameCharacter in childObjects)
+                // if yes return node
+                if (CheckObject(characterName, gameCharacter))
+                    return gameCharacter;
+                // if not, repeat
+                else
+                    return GetCharacter(characterName, gameCharacter);
 
             return null;
         }
@@ -36,11 +55,12 @@ namespace TextAdventure.Infrastructure
         {
             // Get all child objects
             List<GameBaseObject> allChildObjects = (from ObjectRelationship in gameObject.Relationships
-                                  where ObjectRelationship.RelationshipTo is GameObject
-                                  && ObjectRelationship.RelationshipType == RelationshipType.Contains
-                                  || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                                  || ObjectRelationship.RelationshipType == RelationshipType.IsUnder
-                                  select ObjectRelationship.RelationshipTo).ToList<GameBaseObject>();
+                                                    where ObjectRelationship.RelationshipTo is GameObject
+                                                    && ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild
+                                                    && ObjectRelationship.RelationshipType == RelationshipType.Contains
+                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
+                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsUnder
+                                                    select ObjectRelationship.RelationshipTo).ToList<GameBaseObject>();
 
             // Get those that are of type GameObject and
             // return those
@@ -53,12 +73,6 @@ namespace TextAdventure.Infrastructure
                 return true;
             else
                 return false;
-        }
-
-        // TODO: do the same for GetCharacter() what will have been done to GetObject()
-        public GameCharacter GetCharacter(string characterName, GameBaseObject baseObject)
-        {
-            return (GameCharacter)baseObject.Relationships.First(GameObjectRelationship => GameObjectRelationship.RelationshipTo.Name == characterName).RelationshipTo;
         }
     }
 }
