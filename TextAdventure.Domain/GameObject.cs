@@ -146,12 +146,4 @@ namespace TextAdventure.Domain
         ParentToChild = 0,
         ChildToParent = 1
     }
-
-    public enum ObjectType
-    {
-        GameContainer = 0,
-        Location = 1,
-        Object = 2,
-        Character = 3
-    }
 }

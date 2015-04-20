@@ -27,10 +27,9 @@ namespace TextAdventure.Infrastructure
                 else
                     return GetObject(objectName, gameObject);
                 
-
             return null;
         }
-        
+
         public GameCharacter GetCharacter(string characterName, GameBaseObject baseObject)
         {
             if (baseObject.Relationships == null)
@@ -47,7 +46,7 @@ namespace TextAdventure.Infrastructure
                 // if not, repeat
                 else
                     return GetCharacter(characterName, gameCharacter);
-
+            
             return null;
         }
 
@@ -55,11 +54,11 @@ namespace TextAdventure.Infrastructure
         {
             // Get all child objects
             List<GameBaseObject> allChildObjects = (from ObjectRelationship in gameObject.Relationships
-                                                    where ObjectRelationship.RelationshipTo is GameObject
-                                                    && ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild
-                                                    && ObjectRelationship.RelationshipType == RelationshipType.Contains
+                                                    where (ObjectRelationship.RelationshipTo is GameObject)
+                                                    && (ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild)
+                                                    && (ObjectRelationship.RelationshipType == RelationshipType.Contains
                                                     || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsUnder
+                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsUnder)
                                                     select ObjectRelationship.RelationshipTo).ToList<GameBaseObject>();
 
             // Get those that are of type GameObject and

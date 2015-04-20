@@ -10,18 +10,19 @@ namespace TextAdventure.Application
         public CommandOperationStatus Take(GameObject gameobject, GameObject character)
         {
             var status = new CommandOperationStatus();
-            //RemoveLocationRelationships(gameobject);
+            RemoveLocationRelationships(gameobject);
             gameobject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, character);
             return status;
         }
 
         private void RemoveLocationRelationships(GameObject gameobject)
         {
-            //gameobject.Relationships.ToList().RemoveAll
-            //    (GameObjectRelationship => 
-            //    GameObjectRelationship.RelationshipType==RelationshipType.Contains
-            //    ||GameObjectRelationship.RelationshipType==RelationshipType.IsUnder).
-            //
+            gameobject.Relationships.ToList().RemoveAll
+                (GameObjectRelationship =>
+                    GameObjectRelationship.RelationshipDirection == RelationshipDirection.ChildToParent
+                    && (GameObjectRelationship.RelationshipType == RelationshipType.Contains
+                    || GameObjectRelationship.RelationshipType == RelationshipType.IsUnder
+                    || GameObjectRelationship.RelationshipType == RelationshipType.LeadsTo));
         }
     }
 }
