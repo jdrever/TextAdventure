@@ -7,11 +7,11 @@ namespace TextAdventure.Application
 {
     class CommandActioner : ICommandActioner
     {
-        public CommandOperationStatus Take(GameObject gameobject, GameObject character)
+        public CommandOperationStatus Take(GameObject gameObject, GameCharacter gameCharacter)
         {
             var status = new CommandOperationStatus();
-            RemoveLocationRelationships(gameobject);
-            gameobject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, character);
+            RemoveLocationRelationships(gameObject);
+            gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
             return status;
         }
 

@@ -50,11 +50,10 @@ namespace TextAdventure.Domain
             var objectRelationship = new GameObjectRelationship(type, direction, baseObject);
 
             // Identifies object equality by ID. 
-            // Returns whether the object's Relationships contains a relationship with the other object. 
+            // Returns whether the object's Relationships contains a relationship with the other object in the specified direction.
             return this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
         }
     }
-
     
     public class GameContainer : GameBaseObject
     {
@@ -75,11 +74,11 @@ namespace TextAdventure.Domain
         {
 
         }
-
         public GameObject(string name)
         {
             Name = name;
         }
+
         public float WidthInMetres { get; set; }
         public float HeightInMetres { get; set; }
         public bool IsOpenable { get; set; }
@@ -98,15 +97,14 @@ namespace TextAdventure.Domain
 	    public new string Name
 	    {
 		    get
-		        {
-		    	    return this.FirstName + " " + this.Surname;
-		        }
+		    {
+		    	return this.FirstName + " " + this.Surname;
+		    }
 	    }
 	
         public string Gender { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
-
     }
 
     public class GameCurrencyObject : GameObject
@@ -116,8 +114,10 @@ namespace TextAdventure.Domain
             Name = name;
             FinancialValue = financialValue;
         }
+
         public decimal FinancialValue { get; set; }
     }
+
 
     public class GameObjectRelationship
     {
@@ -133,12 +133,14 @@ namespace TextAdventure.Domain
         public GameBaseObject RelationshipTo { get; set; } 
     }
 
+
     public enum RelationshipType
     {
         Contains = 0,
         LeadsTo = 1,
         IsHeldBy = 2,
         IsUnder = 3,
+        
     }
 
     public enum RelationshipDirection

@@ -33,5 +33,16 @@ namespace TextAdventure.Infrastructure
 
             System.IO.File.WriteAllText(fileDir, json);
         }
+
+        // Getting current location???
+        //public GameLocation GetCharactersLocation(GameCharacter gameCharacter)
+        //{
+        //    
+        //}
+        //
+        //public void SaveCurrentLocation()
+        //{
+        //
+        //}
     }
 }

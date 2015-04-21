@@ -26,7 +26,9 @@ namespace TextAdventure.Infrastructure
                 // if not, repeat
                 else
                     return GetObject(objectName, gameObject);
-                
+
+            // when there are no more child objects, return null - the desired object obviously doesn't 
+            // exist
             return null;
         }
 
@@ -47,13 +49,16 @@ namespace TextAdventure.Infrastructure
                 else
                     return GetCharacter(characterName, gameCharacter);
             
+            // when there are no more child objects, return null - the desired character obviously doesn't 
+            // exist
             return null;
         }
 
-        private List<GameBaseObject> GetChildObjects(GameBaseObject gameObject)
+
+        private List<GameBaseObject> GetChildObjects(GameBaseObject baseObject)
         {
             // Get all child objects
-            List<GameBaseObject> allChildObjects = (from ObjectRelationship in gameObject.Relationships
+            List<GameBaseObject> allChildObjects = (from ObjectRelationship in baseObject.Relationships
                                                     where (ObjectRelationship.RelationshipTo is GameObject)
                                                     && (ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild)
                                                     && (ObjectRelationship.RelationshipType == RelationshipType.Contains
@@ -66,9 +71,9 @@ namespace TextAdventure.Infrastructure
             return allChildObjects;
         }
 
-        private bool CheckObject(string objectName, GameBaseObject gameObject)
+        private bool CheckObject(string objectName, GameBaseObject baseObject)
         {
-            if (gameObject.Name == objectName)
+            if (baseObject.Name == objectName)
                 return true;
             else
                 return false;

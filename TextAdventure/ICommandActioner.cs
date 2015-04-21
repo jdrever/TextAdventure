@@ -4,6 +4,6 @@ namespace TextAdventure.Interface
 {
     public interface ICommandActioner
     {
-        CommandOperationStatus Take(GameObject gameobject, GameObject character);
+        CommandOperationStatus Take(GameObject gameObject, GameObject gameCharacter);
     }
 }
