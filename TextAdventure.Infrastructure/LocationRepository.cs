@@ -11,8 +11,8 @@ namespace TextAdventure.Infrastructure
     {
         public GameLocation GetLocation(string locationId)
         {
-            //TODO: put the file in a project directory
-            string json = System.IO.File.ReadAllText(String.Format(@"C:\Users\Public\Log\{0}.txt", locationId));
+            string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string json = System.IO.File.ReadAllText(String.Format(@"{0}\.textadventure\Log\{1}.txt", appdata, locationId));
 
             return JsonConvert.DeserializeObject<GameLocation>(json, new JsonSerializerSettings
             {
@@ -28,8 +28,8 @@ namespace TextAdventure.Infrastructure
                 TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
             });
 
-            //TODO: put the file in a project directory
-            string fileDir = String.Format(@"C:\Users\Public\Log\{0}.txt", location.ID.ToString());
+            string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string fileDir = System.IO.File.ReadAllText(String.Format(@"{0}\.textadventure\Log\{1}.txt", appdata, location.ID));
 
             System.IO.File.WriteAllText(fileDir, json);
         }
