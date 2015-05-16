@@ -16,7 +16,7 @@ namespace TextAdventure.Infrastructure
                 baseObject.Relationships = new List<GameObjectRelationship>();
 
             // get child nodes
-            var childObjects = GetChildObjects(baseObject);
+            var childObjects = GetChildObjects<GameObject>(baseObject);
 
             // check if they are the searched for node
             foreach (GameObject gameObject in childObjects)
@@ -38,7 +38,7 @@ namespace TextAdventure.Infrastructure
                 baseObject.Relationships = new List<GameObjectRelationship>();
 
             // get child nodes
-            var childObjects = GetChildObjects(baseObject);
+            var childObjects = GetChildObjects<GameCharacter>(baseObject);
 
             // check if they are the searched for node
             foreach (GameCharacter gameCharacter in childObjects)
@@ -55,11 +55,11 @@ namespace TextAdventure.Infrastructure
         }
 
 
-        private List<GameBaseObject> GetChildObjects(GameBaseObject baseObject)
+        private List<GameBaseObject> GetChildObjects<T>(GameBaseObject baseObject)
         {
             // Get all child objects
             List<GameBaseObject> allChildObjects = (from ObjectRelationship in baseObject.Relationships
-                                                    where (ObjectRelationship.RelationshipTo is GameObject)
+                                                    where (ObjectRelationship.RelationshipTo is T)
                                                     && (ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild)
                                                     && (ObjectRelationship.RelationshipType == RelationshipType.Contains
                                                     || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy

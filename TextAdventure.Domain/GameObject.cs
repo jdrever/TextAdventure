@@ -93,17 +93,22 @@ namespace TextAdventure.Domain
             FirstName = firstName;
             Surname = surname;
         }
-	
-	    public new string Name
-	    {
-		    get
-		    {
-		    	return this.FirstName + " " + this.Surname;
-		    }
-	    }
+
+        public string Name
+        {
+            get;
+            set;
+        }
 	
         public string Gender { get; set; }
-        public string FirstName { get; set; }
+        public string FirstName 
+        {
+            get
+            {
+                return String.Format(Name);
+            } 
+            set; 
+        }
         public string Surname { get; set; }
     }
 

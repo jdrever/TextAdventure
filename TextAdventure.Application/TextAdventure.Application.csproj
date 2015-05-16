@@ -49,6 +49,10 @@
       <Project>{47E98B8D-C367-4FE6-94DE-3676F00DFA9A}</Project>
       <Name>TextAdventure.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TextAdventure.Infrastructure\TextAdventure.Infrastructure.csproj">
+      <Project>{3408a9d5-ce6c-4d2f-aa7d-9ab84dc5a3e9}</Project>
+      <Name>TextAdventure.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TextAdventure\TextAdventure.Interface.csproj">
       <Project>{DE25544F-02D5-4F4B-8BED-3B766FB3011B}</Project>
       <Name>TextAdventure.Interface</Name>

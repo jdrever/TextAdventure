@@ -52,6 +52,8 @@ namespace TextAdventure.UnitTests
             locationRepository.SaveCurrentLocation(mainCharacter, bedroom);
 
             Assert.AreEqual(locationRepository.GetCharactersLocation(mainCharacter).ID, bedroom.ID);
+
+            Assert.AreEqual(mainCharacter.Name, "Alfie Drever");
         }
     }
 }

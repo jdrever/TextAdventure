@@ -4,6 +4,6 @@ namespace TextAdventure.Interface
 {
     public interface IActionCoordinator
     {
-        CommandOperationStatus Take(string objectName, string characterName);
+        CommandOperationStatus Take(string objectName, string characterName, GameLocation location);
     }
 }
