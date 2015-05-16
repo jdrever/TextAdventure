@@ -21,7 +21,7 @@ namespace TextAdventure.UnitTests
             bedroom.Description = "An untidy bedroom";
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
-            var mainCharacter = new GameCharacter("Alife","Drever");
+            var mainCharacter = new GameCharacter("Alife", "Drever");
             mainCharacter.Gender = "Male";
             bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, mainCharacter);
 
@@ -44,12 +44,14 @@ namespace TextAdventure.UnitTests
 
             var objectRepository = new ObjectRepository();
 
-            Assert.AreEqual(objectRepository.GetObject(wallet.Name, bedroom), wallet);
+            Assert.AreEqual(objectRepository.GetObject(bed.Name, bedroom), bed);
 
-            // Updates based on code that was once here:
-            //HasRelationshipWith sort of replaces IsWithin and the like.
-            //TODO: character.Move (way of updating the location the contains the character)
-            //local positions? e.g. in room by door => in room by bed
+            var locationRepository = new LocationRepository();
+
+            // save the location of the character as the bedroom
+            locationRepository.SaveCurrentLocation(mainCharacter, bedroom);
+
+            Assert.AreEqual(locationRepository.GetCharactersLocation(mainCharacter).ID, bedroom.ID);
         }
     }
 }

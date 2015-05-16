@@ -2,8 +2,6 @@
 using TextAdventure.Domain;
 using TextAdventure.Interface;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace TextAdventure.Infrastructure
 {
@@ -12,11 +10,11 @@ namespace TextAdventure.Infrastructure
         public GameLocation GetLocation(string locationId)
         {
             //TODO: put the file in a project directory
-            string json = System.IO.File.ReadAllText(String.Format(@"C:\Users\Public\Log\{0}.txt", locationId));
+            string json = System.IO.File.ReadAllText(String.Format(@"E:\Programming resources\Logs and Tests\{0}.txt", locationId));
 
             return JsonConvert.DeserializeObject<GameLocation>(json, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Objects
+                TypeNameHandling = TypeNameHandling.Objects,
             });
         }
 
@@ -25,24 +23,27 @@ namespace TextAdventure.Infrastructure
             string json = JsonConvert.SerializeObject(location, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+                TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple,
+                ReferenceLoopHandling  = ReferenceLoopHandling.Ignore
             });
 
             //TODO: put the file in a project directory
-            string fileDir = String.Format(@"C:\Users\Public\Log\{0}.txt", location.ID.ToString());
+            string fileDir = String.Format(@"E:\Programming resources\Logs and Tests\{0}.txt", location.ID.ToString());
 
             System.IO.File.WriteAllText(fileDir, json);
         }
+        public GameLocation GetCharactersLocation(GameCharacter gameCharacter)
+        {
+            return GetLocation(System.IO.File.ReadAllText(String.Format(@"E:\Programming resources\Logs and Tests\{0}.txt", gameCharacter.ID)));
+        }
+        
+        public void SaveCurrentLocation(GameCharacter gameCharacter, GameLocation gameLocation)
+        {
+            System.IO.File.WriteAllText(String.Format(@"E:\Programming resources\Logs and Tests\{0}.txt", gameCharacter.ID), gameLocation.ID.ToString());
 
-        // Getting current location???
-        //public GameLocation GetCharactersLocation(GameCharacter gameCharacter)
-        //{
-        //    
-        //}
-        //
-        //public void SaveCurrentLocation()
-        //{
-        //
-        //}
+            // save the location so it can be accessed - might not be necessary later on?
+            SaveLocation(gameLocation);
+        }
     }
 }
+

@@ -73,10 +73,7 @@ namespace TextAdventure.Infrastructure
 
         private bool CheckObject(string objectName, GameBaseObject baseObject)
         {
-            if (baseObject.Name == objectName)
-                return true;
-            else
-                return false;
+            return baseObject.Name == objectName;
         }
     }
 }
