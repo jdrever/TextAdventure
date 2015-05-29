@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using TextAdventure.Domain;
 using TextAdventure.Infrastructure;
+using System.Threading;
 
 namespace TextAdventure.UnitTests
 {
@@ -15,13 +17,16 @@ namespace TextAdventure.UnitTests
         [TestMethod]
         public void TestCreateWorld()
         {
+            // create dir if it doesn't already exist, for testing with json
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.textadventure\Logs\");
+
             var entireWorld=new GameContainer();
 
             var bedroom=new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
-            var mainCharacter = new GameCharacter("Alife", "Drever");
+            var mainCharacter = new GameCharacter("Alfie Drever");
             mainCharacter.Gender = "Male";
             bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, mainCharacter);
 
@@ -53,7 +58,16 @@ namespace TextAdventure.UnitTests
 
             Assert.AreEqual(locationRepository.GetCharactersLocation(mainCharacter).ID, bedroom.ID);
 
-            Assert.AreEqual(mainCharacter.Name, "Alfie Drever");
+            Assert.AreEqual(mainCharacter.FirstName, "Alfie");
+            Assert.AreEqual(mainCharacter.Surname, "Drever");
+
+            File.WriteAllText(@"E:/test.txt", JsonConvert.SerializeObject(ObjectRepository.GetChildObjects<GameObject>(bedroom), Formatting.Indented,new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple,
+                ReferenceLoopHandling  = ReferenceLoopHandling.Ignore
+            }));
+            
         }
     }
 }

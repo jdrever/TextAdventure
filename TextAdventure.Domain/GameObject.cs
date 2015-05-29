@@ -42,7 +42,28 @@ namespace TextAdventure.Domain
 
         }
 
-        public bool HasRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
+        public void RemoveRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
+        {
+            // if null instanciate Relationships
+            if (Relationships == null)
+                Relationships = new List<GameObjectRelationship>();
+
+            // if relationshipTo's Relationships is null instanciate Relationships
+            if (relationshipTo.Relationships == null)
+                relationshipTo.Relationships = new List<GameObjectRelationship>();
+
+            // add new relationship
+            Relationships.Remove(new GameObjectRelationship(relationshipType, relationshipDirection, relationshipTo));
+
+            // add other type of relationship
+            if (relationshipDirection == RelationshipDirection.ParentToChild)
+                relationshipTo.Relationships.Remove(new GameObjectRelationship(relationshipType, RelationshipDirection.ChildToParent, this));
+            else if (relationshipDirection == RelationshipDirection.ChildToParent)
+                relationshipTo.Relationships.Remove(new GameObjectRelationship(relationshipType, RelationshipDirection.ParentToChild, this));
+
+        }
+
+        public bool HasDirectRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
         {
             if (this.Relationships == null)
                 return false;
@@ -52,6 +73,34 @@ namespace TextAdventure.Domain
             // Identifies object equality by ID. 
             // Returns whether the object's Relationships contains a relationship with the other object in the specified direction.
             return this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
+        }
+
+        public bool HasIndirectRelationshipWith(GameBaseObject baseObject,RelationshipType type, RelationshipDirection direction)
+        {
+            if (this.Relationships == null)
+                return false;
+
+            if (this.HasDirectRelationshipWith(baseObject, type, direction))
+                return false;
+
+            // check child objects for direct relationship
+            // check each child's child's child's ... 
+            // ...
+
+            return false;
+        }
+
+        public void Move(GameBaseObject currentParent, RelationshipType relationshipType, GameBaseObject newParent)
+        {
+            // if a relationship exists between this and the soon-to-be old parent
+            if (currentParent.HasDirectRelationshipWith(this, relationshipType, RelationshipDirection.ParentToChild))
+            {
+                //remove that relationship
+                currentParent.RemoveRelationship(relationshipType, RelationshipDirection.ParentToChild, this);
+
+                //add a new one
+                newParent.AddRelationship(relationshipType, RelationshipDirection.ParentToChild, this);
+            }
         }
     }
     
@@ -87,29 +136,28 @@ namespace TextAdventure.Domain
 
     public class GameCharacter : GameBaseObject
     {
-        // TODO = done - but now you cannot set Name. Problem?
-        public GameCharacter(string firstName, string surname)
+        public GameCharacter(string Name)
         {
-            FirstName = firstName;
-            Surname = surname;
-        }
-
-        public string Name
-        {
-            get;
-            set;
+            this.Name = Name;
         }
 	
         public string Gender { get; set; }
+
         public string FirstName 
         {
             get
             {
-                return String.Format(Name);
+                return Name.Split(' ')[0];
             } 
-            set; 
         }
-        public string Surname { get; set; }
+
+        public string Surname 
+        {
+            get 
+            {
+                return String.Format(Name.Replace(FirstName + " ", String.Empty));
+            } 
+        }
     }
 
     public class GameCurrencyObject : GameObject

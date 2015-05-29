@@ -55,7 +55,7 @@ namespace TextAdventure.Infrastructure
         }
 
 
-        private List<GameBaseObject> GetChildObjects<T>(GameBaseObject baseObject)
+        public static List<GameBaseObject> GetChildObjects<T>(GameBaseObject baseObject)
         {
             // Get all child objects
             List<GameBaseObject> allChildObjects = (from ObjectRelationship in baseObject.Relationships
@@ -71,7 +71,7 @@ namespace TextAdventure.Infrastructure
             return allChildObjects;
         }
 
-        private bool CheckObject(string objectName, GameBaseObject baseObject)
+        private static bool CheckObject(string objectName, GameBaseObject baseObject)
         {
             return baseObject.Name == objectName;
         }

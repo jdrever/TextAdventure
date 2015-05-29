@@ -12,9 +12,9 @@ namespace TextAdventure.Application
 
             var character = objectRepository.GetCharacter(characterName, location);
 
-            // get location
-            // get character
-            // get object
+            var selectedObject = objectRepository.GetObject(objectName, location);
+
+            //
 
             // move object to be held by character
             // update location
