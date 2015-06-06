@@ -42,6 +42,9 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -162,6 +165,20 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TextAdventure.Application\TextAdventure.Application.csproj">
+      <Project>{a00a4dda-ac4a-494a-8604-94fe2b8b853c}</Project>
+      <Name>TextAdventure.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextAdventure.Infrastructure\TextAdventure.Infrastructure.csproj">
+      <Project>{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}</Project>
+      <Name>TextAdventure.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextAdventure\TextAdventure.Interface.csproj">
+      <Project>{de25544f-02d5-4f4b-8bed-3b766fb3011b}</Project>
+      <Name>TextAdventure.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

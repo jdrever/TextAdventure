@@ -5,7 +5,7 @@ using TextAdventure.Interface;
 
 namespace TextAdventure.Application
 {
-    class CommandActioner : ICommandActioner
+    public class CommandActioner : ICommandActioner
     {
         public CommandOperationStatus Take(GameObject gameObject, GameCharacter gameCharacter)
         {
