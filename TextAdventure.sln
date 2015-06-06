@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Interface", "TextAdventure\TextAdventure.Interface.csproj", "{DE25544F-02D5-4F4B-8BED-3B766FB3011B}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Application", "TextAdventure.Application\TextAdventure.Application.csproj", "{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Infrastructure", "TextAdventure.Infrastructure\TextAdventure.Infrastructure.csproj", "{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.MVC", "TextAdventure.MVC\TextAdventure.MVC.csproj", "{1038DEA6-8B5C-41F7-8567-1A1C04A2CB5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.MVC.Tests", "TextAdventure.MVC.Tests\TextAdventure.MVC.Tests.csproj", "{C3909276-9424-4227-BFE7-5466A93A6004}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +44,14 @@ Global
 		{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1038DEA6-8B5C-41F7-8567-1A1C04A2CB5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1038DEA6-8B5C-41F7-8567-1A1C04A2CB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1038DEA6-8B5C-41F7-8567-1A1C04A2CB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1038DEA6-8B5C-41F7-8567-1A1C04A2CB5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3909276-9424-4227-BFE7-5466A93A6004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3909276-9424-4227-BFE7-5466A93A6004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3909276-9424-4227-BFE7-5466A93A6004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3909276-9424-4227-BFE7-5466A93A6004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

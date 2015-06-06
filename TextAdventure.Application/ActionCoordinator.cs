@@ -10,16 +10,16 @@ namespace TextAdventure.Application
         {
             var objectRepository = new ObjectRepository();
 
-            var character = objectRepository.GetCharacter(characterName, location);
+            var selectedCharacter = objectRepository.GetCharacter(characterName, location);
 
             var selectedObject = objectRepository.GetObject(objectName, location);
 
             //
-
+            var commandActioner=new CommandActioner();
+            return commandActioner.Take(selectedObject, selectedCharacter);
             // move object to be held by character
             // update location
 
-            return null;
         }
     }
 }
