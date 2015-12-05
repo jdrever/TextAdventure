@@ -22,18 +22,11 @@ namespace TextAdventure.Application
 
         public CommandOperationStatus Take(string objectName, string characterName, GameLocation location)
         {
-
-
             var selectedCharacter = _objectRepository.GetCharacter(characterName, location);
 
             var selectedObject = _objectRepository.GetObject(objectName, location);
 
-            //
-            
             return _commandActioner.Take(selectedObject, selectedCharacter);
-            // move object to be held by character
-            // update location
-
         }
     }
 }

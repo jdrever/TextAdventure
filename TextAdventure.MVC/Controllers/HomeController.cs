@@ -22,11 +22,11 @@ namespace TextAdventure.MVC.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult CreateInput(UserInput userInput)
-        {
-            string userInputText = userInput.InputText;
-            return Content(_parser.ParseInput(userInput.ToString()));
-        }
+        //[HttpPost]
+        //public ActionResult CreateInput(UserInput userInput)
+        //{
+        //    string userInputText = userInput.InputText;
+        //    return Content(_parser.ParseInput(userInput.ToString()));
+        //}
     }
 }

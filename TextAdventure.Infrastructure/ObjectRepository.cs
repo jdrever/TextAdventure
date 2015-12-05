@@ -57,18 +57,7 @@ namespace TextAdventure.Infrastructure
 
         public static List<GameBaseObject> GetChildObjects<T>(GameBaseObject baseObject)
         {
-            // Get all child objects
-            List<GameBaseObject> allChildObjects = (from ObjectRelationship in baseObject.Relationships
-                                                    where (ObjectRelationship.RelationshipTo is T)
-                                                    && (ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild)
-                                                    && (ObjectRelationship.RelationshipType == RelationshipType.Contains
-                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsUnder)
-                                                    select ObjectRelationship.RelationshipTo).ToList<GameBaseObject>();
-
-            // Get those that are of type GameObject and
-            // return those
-            return allChildObjects;
+            return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipTo is T && (objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild) && (objectRelationship.RelationshipType == RelationshipType.Contains || objectRelationship.RelationshipType == RelationshipType.IsHeldBy || objectRelationship.RelationshipType == RelationshipType.IsUnder) select objectRelationship.RelationshipTo).ToList();
         }
 
         private static bool CheckObject(string objectName, GameBaseObject baseObject)
