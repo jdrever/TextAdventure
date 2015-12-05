@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextAdventure.Domain;
-using TextAdventure.Infrastructure;
 using TextAdventure.Interface;
 
 namespace TextAdventure.Application
 {
     public class Parser : IParser
     {
-        private ActionCoordinator _actionCoordinator;
+        private readonly ActionCoordinator _actionCoordinator;
 
         public Parser(ActionCoordinator actionCoordinator)
         {
-            
             if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
             _actionCoordinator = actionCoordinator;
         }
@@ -29,6 +23,10 @@ namespace TextAdventure.Application
             if (firstWord == "TAKE")
             {
                 return _actionCoordinator.Take(secondWords, characterName, location).Message;
+            }
+            if (firstWord == "DROP")
+            {
+                return _actionCoordinator.Drop(secondWords, characterName, location).Message;
             }
             return "I didn't understand!";
         }

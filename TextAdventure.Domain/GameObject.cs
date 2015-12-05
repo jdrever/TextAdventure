@@ -49,10 +49,10 @@ namespace TextAdventure.Domain
             if (relationshipTo.Relationships == null)
                 relationshipTo.Relationships = new List<GameObjectRelationship>();
 
-            // add new relationship
+            // remove new relationship
             Relationships.Remove(new GameObjectRelationship(relationshipType, relationshipDirection, relationshipTo));
 
-            // add other type of relationship
+            // remove other type of relationship
             if (relationshipDirection == RelationshipDirection.ParentToChild)
                 relationshipTo.Relationships.Remove(new GameObjectRelationship(relationshipType, RelationshipDirection.ChildToParent, this));
             else if (relationshipDirection == RelationshipDirection.ChildToParent)

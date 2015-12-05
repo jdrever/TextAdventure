@@ -1,4 +1,5 @@
-﻿using TextAdventure.Interface;
+﻿using System;
+using TextAdventure.Interface;
 
 namespace TextAdventure.Application
 {
@@ -6,7 +7,7 @@ namespace TextAdventure.Application
     {
         public void InterpretInput(string parsedInput)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

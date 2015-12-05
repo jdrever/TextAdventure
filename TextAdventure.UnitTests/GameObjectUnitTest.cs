@@ -21,13 +21,14 @@ namespace TextAdventure.UnitTests
             // create dir if it doesn't already exist, for testing with json
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.textadventure\Logs\");
 
-            var entireWorld=new GameContainer();
+            var entireWorld = new GameContainer();
 
             var bedroom = new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
             var mainCharacter = new GameCharacter("Alfie Drever");
+            mainCharacter.Description = "Lazy";
             mainCharacter.Gender = "Male";
             bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, mainCharacter);
 
@@ -48,9 +49,17 @@ namespace TextAdventure.UnitTests
             landing.Description = "Area of carpeted land outside bedroom door";
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, landing);
 
-            var objectRepository = new ObjectRepository();
+            var parser = new Parser(new ActionCoordinator(new CommandActioner(), new ObjectRepository()));
 
-            Assert.AreEqual(objectRepository.GetObjectFromID(wallet.ID, bed), wallet);
+            var lo = new LocationRepository();
+
+            lo.SaveCurrentLocation(mainCharacter, bedroom);
+
+            var takestatus = parser.ParseInput(bedroom, "Alfie Drever", "take Wallet");
+            Assert.AreEqual(takestatus, "Alfie Drever took Wallet");
+            var dropstatus = parser.ParseInput(bedroom, "Alfie Drever", "drop Wallet");
+            Assert.AreEqual(dropstatus, "Alfie Drever dropped Wallet");
+
         }
     }
 }
