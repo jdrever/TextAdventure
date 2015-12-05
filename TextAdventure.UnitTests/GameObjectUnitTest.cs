@@ -50,7 +50,7 @@ namespace TextAdventure.UnitTests
 
             var objectRepository = new ObjectRepository();
 
-            Assert.AreEqual(objectRepository.GetObjectFromID(bed.ID, bedroom), bed);
+            Assert.AreEqual(objectRepository.GetObjectFromID(wallet.ID, bed), wallet);
         }
     }
 }

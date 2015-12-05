@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace TextAdventure.Domain
 {
@@ -65,22 +62,22 @@ namespace TextAdventure.Domain
 
         public bool HasDirectRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
         {
-            if (this.Relationships == null)
+            if (Relationships == null)
                 return false;
 
             var objectRelationship = new GameObjectRelationship(type, direction, baseObject);
 
             // Identifies object equality by ID. 
             // Returns whether the object's Relationships contains a relationship with the other object in the specified direction.
-            return this.Relationships.Any(gameObjectRelationship => gameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
+            return Relationships.Any(gameObjectRelationship => gameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
         }
 
         public bool HasIndirectRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
         {
-            if (this.Relationships == null)
+            if (Relationships == null)
                 return false;
 
-            if (this.HasDirectRelationshipWith(baseObject, type, direction))
+            if (HasDirectRelationshipWith(baseObject, type, direction))
                 return false;
 
             // check child objects for direct relationship
@@ -138,7 +135,7 @@ namespace TextAdventure.Domain
     {
         public GameCharacter(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 	
         public string Gender { get; set; }
