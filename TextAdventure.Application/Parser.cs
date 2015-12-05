@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextAdventure.Domain;
+using TextAdventure.Infrastructure;
 using TextAdventure.Interface;
 
 namespace TextAdventure.Application
@@ -18,15 +20,15 @@ namespace TextAdventure.Application
             _actionCoordinator = actionCoordinator;
         }
 
-        public string ParseInput(string input)
+        public string ParseInput(GameLocation location, string characterName, string input)
         {
-            string[] words = input.Split(' ');
-            string firstWords = words[0].ToUpper();
+            var words = input.Split(' ');
+            var firstWord = words[0].ToUpper();
+            var secondWords = words[1];
 
-            if (firstWords == "TAKE")
+            if (firstWord == "TAKE")
             {
-                // need location/character
-                return _actionCoordinator.Take(words[0], null, null).Message;
+                return _actionCoordinator.Take(secondWords, characterName, location).Message;
             }
             return "I didn't understand!";
         }

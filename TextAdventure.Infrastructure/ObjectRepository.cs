@@ -10,7 +10,7 @@ namespace TextAdventure.Infrastructure
 {
     public class ObjectRepository : IObjectRepository
     {
-        public GameObject GetObject(string objectName, GameBaseObject baseObject)
+        public GameObject GetObjectFromName(string objectName, GameBaseObject baseObject)
         {
             if (baseObject.Relationships == null)
                 baseObject.Relationships = new List<GameObjectRelationship>();
@@ -19,13 +19,36 @@ namespace TextAdventure.Infrastructure
             var childObjects = GetChildObjects<GameObject>(baseObject);
 
             // check if they are the searched for node
-            foreach (GameObject gameObject in childObjects)
-                // if yes return node
-                if (CheckObject(objectName, gameObject))
+            foreach (var gameObject in childObjects.Cast<GameObject>())
+            {
+                if (CheckObjectName(objectName, gameObject))
                     return gameObject;
                 // if not, repeat
-                else
-                    return GetObject(objectName, gameObject);
+
+                return GetObjectFromName(objectName, gameObject);
+            }
+
+            // when there are no more child objects, return null - the desired object obviously doesn't 
+            // exist
+            return null;
+        }
+
+        public GameObject GetObjectFromID(Guid ID, GameBaseObject baseObject)
+        {
+            if (baseObject.Relationships == null)
+                baseObject.Relationships = new List<GameObjectRelationship>();
+
+            // get child nodes
+            var childObjects = GetChildObjects<GameObject>(baseObject);
+
+            // check if they are the searched for node
+            foreach (var gameObject in childObjects.Cast<GameObject>())
+            {
+                if (CheckObjectID(ID, gameObject))
+                    return gameObject;
+                
+                return GetObjectFromID(ID, gameObject);
+            }
 
             // when there are no more child objects, return null - the desired object obviously doesn't 
             // exist
@@ -43,7 +66,7 @@ namespace TextAdventure.Infrastructure
             // check if they are the searched for node
             foreach (GameCharacter gameCharacter in childObjects)
                 // if yes return node
-                if (CheckObject(characterName, gameCharacter))
+                if (CheckObjectName(characterName, gameCharacter))
                     return gameCharacter;
                 // if not, repeat
                 else
@@ -57,23 +80,17 @@ namespace TextAdventure.Infrastructure
 
         public static List<GameBaseObject> GetChildObjects<T>(GameBaseObject baseObject)
         {
-            // Get all child objects
-            List<GameBaseObject> allChildObjects = (from ObjectRelationship in baseObject.Relationships
-                                                    where (ObjectRelationship.RelationshipTo is T)
-                                                    && (ObjectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild)
-                                                    && (ObjectRelationship.RelationshipType == RelationshipType.Contains
-                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsHeldBy
-                                                    || ObjectRelationship.RelationshipType == RelationshipType.IsUnder)
-                                                    select ObjectRelationship.RelationshipTo).ToList<GameBaseObject>();
-
-            // Get those that are of type GameObject and
-            // return those
-            return allChildObjects;
+            return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipTo is T && (objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild) && (objectRelationship.RelationshipType == RelationshipType.Contains || objectRelationship.RelationshipType == RelationshipType.IsHeldBy || objectRelationship.RelationshipType == RelationshipType.IsUnder) select objectRelationship.RelationshipTo).ToList();
         }
 
-        private static bool CheckObject(string objectName, GameBaseObject baseObject)
+        private static bool CheckObjectName(string objectName, GameBaseObject baseObject)
         {
             return baseObject.Name == objectName;
+        }
+
+        private static bool CheckObjectID(Guid ID, GameBaseObject baseObject)
+        {
+            return baseObject.ID == ID;
         }
     }
 }

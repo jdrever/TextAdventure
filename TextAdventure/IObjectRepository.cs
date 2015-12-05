@@ -4,7 +4,7 @@ namespace TextAdventure.Interface
 {
     public interface IObjectRepository
     {
-        GameObject GetObject(string objectName, GameBaseObject baseObject);
+        GameObject GetObjectFromName(string objectName, GameBaseObject baseObject);
         GameCharacter GetCharacter(string characterName, GameBaseObject baseObject);
     }
 }

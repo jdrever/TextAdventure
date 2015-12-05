@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using TextAdventure.Domain;
 using TextAdventure.Infrastructure;
 using System.Threading;
+using TextAdventure.Application;
 
 namespace TextAdventure.UnitTests
 {
@@ -22,7 +23,7 @@ namespace TextAdventure.UnitTests
 
             var entireWorld=new GameContainer();
 
-            var bedroom=new GameLocation("Bedroom");
+            var bedroom = new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
@@ -49,25 +50,7 @@ namespace TextAdventure.UnitTests
 
             var objectRepository = new ObjectRepository();
 
-            Assert.AreEqual(objectRepository.GetObject(bed.Name, bedroom), bed);
-
-            var locationRepository = new LocationRepository();
-
-            // save the location of the character as the bedroom
-            locationRepository.SaveCurrentLocation(mainCharacter, bedroom);
-
-            Assert.AreEqual(locationRepository.GetCharactersLocation(mainCharacter).ID, bedroom.ID);
-
-            Assert.AreEqual(mainCharacter.FirstName, "Alfie");
-            Assert.AreEqual(mainCharacter.Surname, "Drever");
-
-            File.WriteAllText(@"E:/test.txt", JsonConvert.SerializeObject(ObjectRepository.GetChildObjects<GameObject>(bedroom), Formatting.Indented,new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple,
-                ReferenceLoopHandling  = ReferenceLoopHandling.Ignore
-            }));
-            
+            Assert.AreEqual(objectRepository.GetObjectFromID(bed.ID, bedroom), bed);
         }
     }
 }

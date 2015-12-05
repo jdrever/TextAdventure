@@ -72,10 +72,10 @@ namespace TextAdventure.Domain
 
             // Identifies object equality by ID. 
             // Returns whether the object's Relationships contains a relationship with the other object in the specified direction.
-            return this.Relationships.Any(GameObjectRelationship => GameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
+            return this.Relationships.Any(gameObjectRelationship => gameObjectRelationship.RelationshipTo.ID == objectRelationship.RelationshipTo.ID);
         }
 
-        public bool HasIndirectRelationshipWith(GameBaseObject baseObject,RelationshipType type, RelationshipDirection direction)
+        public bool HasIndirectRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
         {
             if (this.Relationships == null)
                 return false;
@@ -136,28 +136,16 @@ namespace TextAdventure.Domain
 
     public class GameCharacter : GameBaseObject
     {
-        public GameCharacter(string Name)
+        public GameCharacter(string name)
         {
-            this.Name = Name;
+            this.Name = name;
         }
 	
         public string Gender { get; set; }
 
-        public string FirstName 
-        {
-            get
-            {
-                return Name.Split(' ')[0];
-            } 
-        }
+        public string FirstName => Name.Split(' ')[0];
 
-        public string Surname 
-        {
-            get 
-            {
-                return String.Format(Name.Replace(FirstName + " ", String.Empty));
-            } 
-        }
+        public string Surname => string.Format(Name.Replace(FirstName + " ", string.Empty));
     }
 
     public class GameCurrencyObject : GameObject
