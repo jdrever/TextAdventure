@@ -48,11 +48,9 @@ namespace TextAdventure.UnitTests
             landing.Description = "Area of carpeted land outside bedroom door";
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, landing);
 
-            var parser = new Parser(new ActionCoordinator(new CommandActioner(), new ObjectRepository()));
+            var objectRepository = new ObjectRepository();
 
-            var message = parser.ParseInput(bedroom, mainCharacter.Name, "take Wallet");
-
-            Assert.AreEqual(message, "Alfie Drever took Wallet");
+            Assert.AreEqual(objectRepository.GetObjectFromID(bed.ID, bedroom), bed);
         }
     }
 }

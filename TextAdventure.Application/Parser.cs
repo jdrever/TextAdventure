@@ -24,11 +24,11 @@ namespace TextAdventure.Application
         {
             var words = input.Split(' ');
             var firstWord = words[0].ToUpper();
-            var secondWord = words[1];
+            var secondWords = words[1];
 
             if (firstWord == "TAKE")
             {
-                return _actionCoordinator.Take(secondWord, characterName, location).Message;
+                return _actionCoordinator.Take(secondWords, characterName, location).Message;
             }
             return "I didn't understand!";
         }

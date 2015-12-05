@@ -143,21 +143,9 @@ namespace TextAdventure.Domain
 	
         public string Gender { get; set; }
 
-        public string FirstName 
-        {
-            get
-            {
-                return Name.Split(' ')[0];
-            } 
-        }
+        public string FirstName => Name.Split(' ')[0];
 
-        public string Surname 
-        {
-            get 
-            {
-                return String.Format(Name.Replace(FirstName + " ", String.Empty));
-            } 
-        }
+        public string Surname => string.Format(Name.Replace(FirstName + " ", string.Empty));
     }
 
     public class GameCurrencyObject : GameObject

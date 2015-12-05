@@ -11,8 +11,8 @@ namespace TextAdventure.Infrastructure
         {
 
             //TODO: put the file in a project directory
-            string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string json = System.IO.File.ReadAllText(String.Format(@"{0}\.textadventure\Logs\{1}.txt", appdata, locationId));
+            var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var json = System.IO.File.ReadAllText($@"{appdata}\.textadventure\Logs\{locationId}.txt");
 
 
             return JsonConvert.DeserializeObject<GameLocation>(json, new JsonSerializerSettings
@@ -32,21 +32,21 @@ namespace TextAdventure.Infrastructure
 
 
             //TODO: put the file in a project directory
-            string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            System.IO.File.WriteAllText(String.Format(@"{0}\.textadventure\Logs\{1}.txt", appdata, location.ID), json);
+            var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            System.IO.File.WriteAllText($@"{appdata}\.textadventure\Logs\{location.ID}.txt", json);
         }
 
         public GameLocation GetCharactersLocation(GameCharacter gameCharacter)
         {
             string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string fileDir = System.IO.File.ReadAllText(String.Format(@"{0}\.textadventure\Logs\{1}.txt", appdata, gameCharacter.ID));
+            string fileDir = System.IO.File.ReadAllText($@"{appdata}\.textadventure\Logs\{gameCharacter.ID}.txt");
             return GetLocation(fileDir);
         }
         
         public void SaveCurrentLocation(GameCharacter gameCharacter, GameLocation gameLocation)
         {
             string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            System.IO.File.WriteAllText(String.Format(@"{0}\.textadventure\Logs\{1}.txt", appdata, gameCharacter.ID), gameLocation.ID.ToString());
+            System.IO.File.WriteAllText($@"{appdata}\.textadventure\Logs\{gameCharacter.ID}.txt", gameLocation.ID.ToString());
 
             // save the location so it can be accessed - might not be necessary later on?
             SaveLocation(gameLocation);

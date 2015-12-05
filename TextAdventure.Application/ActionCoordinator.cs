@@ -24,7 +24,7 @@ namespace TextAdventure.Application
         {
             var selectedCharacter = _objectRepository.GetCharacter(characterName, location);
 
-            var selectedObject = _objectRepository.GetObject(objectName, location);
+            var selectedObject = _objectRepository.GetObjectFromName(objectName, location);
 
             return _commandActioner.Take(selectedObject, selectedCharacter);
         }
