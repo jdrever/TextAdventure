@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TextAdventure.Domain;
 using TextAdventure.Infrastructure;
@@ -29,7 +30,7 @@ namespace TextAdventure.Application
             return status;
         }
 
-        public CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter)
+        public CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter, GameLocation location)
         {
             var status = new CommandOperationStatus();
 
@@ -37,10 +38,14 @@ namespace TextAdventure.Application
             {
                 RemoveDirectPossessionRelationships(gameObject);
 
-                var locationRepository = new LocationRepository();
-                var gameLocation = locationRepository.GetCharactersLocation(gameCharacter);
+                if (!gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
+                {
+                    status.Message = gameCharacter.Name + " doesn't have " + gameObject.Name;
+                    status.Status = false;
+                    return status;
+                }
 
-                gameLocation.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, gameObject);
+                location.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, gameObject);
 
                 status.Message = gameCharacter.Name + " dropped " + gameObject.Name;
                 status.Status = true;
@@ -56,15 +61,12 @@ namespace TextAdventure.Application
 
         private void RemoveDirectPossessionRelationships(GameBaseObject gameobject)
         {
-            var list = gameobject.Relationships.ToList();
-            list.RemoveAll
-                (gameObjectRelationship =>
-                    gameObjectRelationship.RelationshipDirection == RelationshipDirection.ChildToParent
-                    && (gameObjectRelationship.RelationshipType == RelationshipType.Contains
-                        || gameObjectRelationship.RelationshipType == RelationshipType.IsUnder
-                        || gameObjectRelationship.RelationshipType == RelationshipType.LeadsTo
-                        || gameObjectRelationship.RelationshipType == RelationshipType.IsHeldBy));
-            gameobject.Relationships = list;
+            var directPossessionRelationships = gameobject.Relationships.Where(relationship => relationship.RelationshipDirection == RelationshipDirection.ChildToParent && (relationship.RelationshipType == RelationshipType.Contains || relationship.RelationshipType == RelationshipType.IsUnder || relationship.RelationshipType == RelationshipType.LeadsTo || relationship.RelationshipType == RelationshipType.IsHeldBy)).ToList();
+
+            foreach (var relationship in directPossessionRelationships)
+            {
+                gameobject.RemoveRelationship(relationship);
+            }
         }
     }
 }

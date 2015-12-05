@@ -14,19 +14,18 @@ namespace TextAdventure.Application
             _actionCoordinator = actionCoordinator;
         }
 
-        public string ParseInput(GameLocation location, string characterName, string input)
+        public string ParseInput(Guid characterID, string input)
         {
             var words = input.Split(' ');
             var firstWord = words[0].ToUpper();
             var secondWords = words[1];
 
-            if (firstWord == "TAKE")
+            switch (firstWord)
             {
-                return _actionCoordinator.Take(secondWords, characterName, location).Message;
-            }
-            if (firstWord == "DROP")
-            {
-                return _actionCoordinator.Drop(secondWords, characterName, location).Message;
+                case "TAKE":
+                    return _actionCoordinator.Take(secondWords, characterID).Message;
+                case "DROP":
+                    return _actionCoordinator.Drop(secondWords, characterID).Message;
             }
             return "I didn't understand!";
         }

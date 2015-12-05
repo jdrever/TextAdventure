@@ -10,22 +10,22 @@ namespace TextAdventure.Infrastructure
 {
     public class ObjectRepository : IObjectRepository
     {
-        public GameObject GetObjectFromName(string objectName, GameBaseObject baseObject)
+        public T GetObjectFromName<T>(string objectName, GameBaseObject baseObject) where T:GameBaseObject
         {
             if (baseObject.Relationships == null)
                 baseObject.Relationships = new List<GameObjectRelationship>();
 
-            // get child nodes
-            var childObjects = GetChildObjects<GameObject>(baseObject);
-
+            // get child objects
+            var childObjects = GetChildObjects(baseObject);
             // check if they are the searched for node
-            foreach (var gameObject in childObjects.Cast<GameObject>())
+            foreach (var gameObject in childObjects)
             {
                 if (CheckObjectName(objectName, gameObject))
-                    return gameObject;
-                // if not, repeat
-
-                return GetObjectFromName(objectName, gameObject);
+                    return gameObject as T;
+                if (CheckObjectName(objectName, GetObjectFromName<T>(objectName, gameObject)))
+                {
+                    return GetObjectFromName<T>(objectName, gameObject);
+                }
             }
 
             // when there are no more child objects, return null - the desired object obviously doesn't 
@@ -33,21 +33,21 @@ namespace TextAdventure.Infrastructure
             return null;
         }
 
-        public GameObject GetObjectFromID(Guid ID, GameBaseObject baseObject)
+        public T GetObjectFromID<T>(Guid ID, GameBaseObject baseObject) where T:GameBaseObject
         {
             if (baseObject.Relationships == null)
                 baseObject.Relationships = new List<GameObjectRelationship>();
 
             // get child nodes
-            var childObjects = GetChildObjects<GameObject>(baseObject);
+            var childObjects = GetChildObjects(baseObject);
 
             // check if they are the searched for node
-            foreach (var gameObject in childObjects.Cast<GameObject>())
+            foreach (var gameObject in childObjects)
             {
                 if (CheckObjectID(ID, gameObject))
-                    return gameObject;
+                    return (T) gameObject;
                 
-                return GetObjectFromID(ID, gameObject);
+                return GetObjectFromID<T>(ID, gameObject);
             }
 
             // when there are no more child objects, return null - the desired object obviously doesn't 
@@ -55,37 +55,14 @@ namespace TextAdventure.Infrastructure
             return null;
         }
 
-        public GameCharacter GetCharacter(string characterName, GameBaseObject baseObject)
+        public static List<GameBaseObject> GetChildObjects(GameBaseObject baseObject)
         {
-            if (baseObject.Relationships == null)
-                baseObject.Relationships = new List<GameObjectRelationship>();
-
-            // get child nodes
-            var childObjects = GetChildObjects<GameCharacter>(baseObject);
-
-            // check if they are the searched for node
-            foreach (GameCharacter gameCharacter in childObjects)
-                // if yes return node
-                if (CheckObjectName(characterName, gameCharacter))
-                    return gameCharacter;
-                // if not, repeat
-                else
-                    return GetCharacter(characterName, gameCharacter);
-            
-            // when there are no more child objects, return null - the desired character obviously doesn't 
-            // exist
-            return null;
-        }
-
-
-        public static List<GameBaseObject> GetChildObjects<T>(GameBaseObject baseObject)
-        {
-            return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipTo is T && (objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild) && (objectRelationship.RelationshipType == RelationshipType.Contains || objectRelationship.RelationshipType == RelationshipType.IsHeldBy || objectRelationship.RelationshipType == RelationshipType.IsUnder) select objectRelationship.RelationshipTo).ToList();
+            return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild && (objectRelationship.RelationshipType == RelationshipType.Contains || objectRelationship.RelationshipType == RelationshipType.IsHeldBy || objectRelationship.RelationshipType == RelationshipType.IsUnder) select objectRelationship.RelationshipTo).ToList();
         }
 
         private static bool CheckObjectName(string objectName, GameBaseObject baseObject)
         {
-            return baseObject.Name == objectName;
+            return baseObject != null && baseObject.Name == objectName;
         }
 
         private static bool CheckObjectID(Guid ID, GameBaseObject baseObject)

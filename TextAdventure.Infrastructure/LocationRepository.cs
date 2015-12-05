@@ -17,7 +17,8 @@ namespace TextAdventure.Infrastructure
 
             return JsonConvert.DeserializeObject<GameLocation>(json, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameHandling = TypeNameHandling.All,
+                PreserveReferencesHandling = PreserveReferencesHandling.All
             });
         }
 
@@ -25,9 +26,10 @@ namespace TextAdventure.Infrastructure
         {
             string json = JsonConvert.SerializeObject(location, Formatting.Indented, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameHandling = TypeNameHandling.All,
                 TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple,
-                ReferenceLoopHandling  = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling  = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.All
             });
 
 
@@ -36,10 +38,10 @@ namespace TextAdventure.Infrastructure
             System.IO.File.WriteAllText($@"{appdata}\.textadventure\Logs\{location.ID}.txt", json);
         }
 
-        public GameLocation GetCharactersLocation(GameCharacter gameCharacter)
+        public GameLocation GetCharactersLocation(Guid characterID)
         {
             string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string fileDir = System.IO.File.ReadAllText($@"{appdata}\.textadventure\Logs\{gameCharacter.ID}.txt");
+            string fileDir = System.IO.File.ReadAllText($@"{appdata}\.textadventure\Logs\{characterID}.txt");
             return GetLocation(fileDir);
         }
         

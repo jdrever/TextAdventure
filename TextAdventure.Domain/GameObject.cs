@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace TextAdventure.Domain
 {
+    [JsonObject(IsReference = false)]
     public class GameBaseObject 
     {
         public Guid ID;
@@ -37,6 +39,26 @@ namespace TextAdventure.Domain
             else if (relationshipDirection == RelationshipDirection.ChildToParent)
                 relationshipTo.Relationships.Add(new GameObjectRelationship(relationshipType, RelationshipDirection.ParentToChild, this));
 
+        }
+
+        public void RemoveRelationship(GameObjectRelationship relationship)
+        {
+            // if null instanciate Relationships
+            if (Relationships == null)
+                Relationships = new List<GameObjectRelationship>();
+
+            // if relationshipTo's Relationships is null instanciate Relationships
+            if (relationship.RelationshipTo.Relationships == null)
+                relationship.RelationshipTo.Relationships = new List<GameObjectRelationship>();
+
+            // remove new relationship
+            Relationships.Remove(relationship);
+
+            // remove other type of relationship
+            if (relationship.RelationshipDirection == RelationshipDirection.ParentToChild)
+                relationship.RelationshipTo.Relationships.Remove(new GameObjectRelationship(relationship.RelationshipType, RelationshipDirection.ChildToParent, this));
+            else if (relationship.RelationshipDirection == RelationshipDirection.ChildToParent)
+                relationship.RelationshipTo.Relationships.Remove(new GameObjectRelationship(relationship.RelationshipType, RelationshipDirection.ParentToChild, this));
         }
 
         public void RemoveRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
@@ -156,7 +178,7 @@ namespace TextAdventure.Domain
         public decimal FinancialValue { get; set; }
     }
 
-
+    [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
     public class GameObjectRelationship
     {
         public GameObjectRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)

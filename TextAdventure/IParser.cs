@@ -1,9 +1,10 @@
-﻿using TextAdventure.Domain;
+﻿using System;
+using TextAdventure.Domain;
 
 namespace TextAdventure.Interface
 {
     public interface IParser
     {
-        string ParseInput(GameLocation location, string characterName, string input);
+        string ParseInput(Guid characterID, string input);
     }
 }

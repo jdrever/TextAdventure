@@ -19,22 +19,26 @@ namespace TextAdventure.Application
             _objectRepository = objectRepository;
         }
 
-        public CommandOperationStatus Take(string objectName, string characterName, GameLocation location)
+        public CommandOperationStatus Take(string objectName, Guid characterID)
         {
-            var selectedCharacter = _objectRepository.GetCharacter(characterName, location);
+            var location = new LocationRepository().GetCharactersLocation(characterID);
 
-            var selectedObject = _objectRepository.GetObjectFromName(objectName, location);
+            var selectedCharacter = _objectRepository.GetObjectFromID<GameCharacter>(characterID, location);
+
+            var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
             return _commandActioner.Take(selectedObject, selectedCharacter);
         }
 
-        public CommandOperationStatus Drop(string objectName, string characterName, GameLocation location)
+        public CommandOperationStatus Drop(string objectName, Guid characterID)
         {
-            var selectedCharacter = _objectRepository.GetCharacter(characterName, location);
+            var location = new LocationRepository().GetCharactersLocation(characterID);
 
-            var selectedObject = _objectRepository.GetObjectFromName(objectName, location);
+            var selectedCharacter = _objectRepository.GetObjectFromID<GameCharacter>(characterID, location);
 
-            return _commandActioner.Drop(selectedObject, selectedCharacter);
+            var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
+
+            return _commandActioner.Drop(selectedObject, selectedCharacter, location);
         }
     }
 }

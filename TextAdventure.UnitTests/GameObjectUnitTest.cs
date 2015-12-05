@@ -22,6 +22,7 @@ namespace TextAdventure.UnitTests
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.textadventure\Logs\");
 
             var entireWorld = new GameContainer();
+            entireWorld.Name = "Entire World";
 
             var bedroom = new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
@@ -55,10 +56,8 @@ namespace TextAdventure.UnitTests
 
             lo.SaveCurrentLocation(mainCharacter, bedroom);
 
-            var takestatus = parser.ParseInput(bedroom, "Alfie Drever", "take Wallet");
+            var takestatus = parser.ParseInput(mainCharacter.ID, "take Wallet");
             Assert.AreEqual(takestatus, "Alfie Drever took Wallet");
-            var dropstatus = parser.ParseInput(bedroom, "Alfie Drever", "drop Wallet");
-            Assert.AreEqual(dropstatus, "Alfie Drever dropped Wallet");
 
         }
     }
