@@ -14,21 +14,9 @@ namespace TextAdventure.MVC.Controllers
             _parser = parser;
         }
 
-        public ActionResult UserInput()
+        public ActionResult Index()
         {
             return View();
         }
-
-
-        public ActionResult CreateInput()
-        {
-            return View();
-        }
-        //[HttpPost]
-        //public ActionResult CreateInput(UserInput userInput)
-        //{
-        //    string userInputText = userInput.InputText;
-        //    return Content(_parser.ParseInput(userInput.ToString()));
-        //}
     }
 }

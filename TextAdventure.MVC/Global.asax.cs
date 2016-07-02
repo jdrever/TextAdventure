@@ -6,6 +6,8 @@ using Autofac.Integration.Mvc;
 using TextAdventure.Infrastructure;
 using TextAdventure.Interface;
 using TextAdventure.Application;
+using System.Web;
+using System;
 
 namespace TextAdventure.MVC
 {
@@ -45,5 +47,21 @@ namespace TextAdventure.MVC
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
+        /**
+         * for testing routes only
+        public override void Init()
+        {
+            base.Init();
+            this.AcquireRequestState += showRouteValues;
+        }
+
+        protected void showRouteValues(object sender, EventArgs e)
+        {
+            var context = HttpContext.Current;
+            if (context == null)
+                return;
+            var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(context));
+        }
+        **/
     }
 }
