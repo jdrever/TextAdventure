@@ -22,6 +22,12 @@ namespace TextAdventure.MVC.Controllers
         {
             return View();
         }
+
+
+        public ActionResult CreateInput()
+        {
+            return View();
+        }
         //[HttpPost]
         //public ActionResult CreateInput(UserInput userInput)
         //{

@@ -40,6 +40,7 @@ namespace TextAdventure.MVC
             builder.RegisterType<ActionCoordinator>().As<IActionCoordinator>();
             builder.RegisterType<CommandActioner>().As<ICommandActioner>();
             builder.RegisterType<ObjectRepository>().As<IObjectRepository>();
+            builder.RegisterType<LocationRepository>().As<ILocationRepository>();
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

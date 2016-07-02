@@ -8,11 +8,13 @@ namespace TextAdventure.Application
     {
         private readonly ActionCoordinator _actionCoordinator;
 
-        public Parser(ActionCoordinator actionCoordinator)
-        {
-            if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
-            _actionCoordinator = actionCoordinator;
-        }
+        //TODO: reinstate ActionCoordinator dependency
+
+        //public Parser(ActionCoordinator actionCoordinator)
+        //{
+        //    if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
+        //    _actionCoordinator = actionCoordinator;
+        //}
 
         public string ParseInput(Guid characterID, string input)
         {
