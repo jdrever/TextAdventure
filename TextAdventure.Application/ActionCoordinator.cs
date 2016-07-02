@@ -7,18 +7,19 @@ namespace TextAdventure.Application
 {
     public class ActionCoordinator : IActionCoordinator
     {
-        private readonly CommandActioner _commandActioner;
-        private readonly ObjectRepository _objectRepository;
+        private readonly ICommandActioner _commandActioner;
+        private readonly IObjectRepository _objectRepository;
 
 
-        public ActionCoordinator(CommandActioner commandActioner, ObjectRepository objectRepository)
+        
+        public ActionCoordinator(ICommandActioner commandActioner, IObjectRepository objectRepository)
         {
             if (commandActioner == null) throw new ArgumentNullException("commandActioner");
             if (objectRepository == null) throw new ArgumentNullException("objectRepository");
             _commandActioner = commandActioner;
             _objectRepository = objectRepository;
         }
-
+        
         public CommandOperationStatus Take(string objectName, Guid characterID)
         {
             var location = new LocationRepository().GetCharactersLocation(characterID);

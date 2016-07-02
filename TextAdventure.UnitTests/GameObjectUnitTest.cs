@@ -29,7 +29,7 @@ namespace TextAdventure.UnitTests
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
             var mainCharacter = new GameCharacter("Alfie Drever");
-            mainCharacter.Description = "Lazy";
+            mainCharacter.Description = "Lazy but deeply lovable";
             mainCharacter.Gender = "Male";
             bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, mainCharacter);
 

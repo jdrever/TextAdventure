@@ -6,15 +6,15 @@ namespace TextAdventure.Application
 {
     public class Parser : IParser
     {
-        private readonly ActionCoordinator _actionCoordinator;
+        private readonly IActionCoordinator _actionCoordinator;
 
         //TODO: reinstate ActionCoordinator dependency
 
-        //public Parser(ActionCoordinator actionCoordinator)
-        //{
-        //    if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
-        //    _actionCoordinator = actionCoordinator;
-        //}
+        public Parser(IActionCoordinator actionCoordinator)
+        {
+            if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
+            _actionCoordinator = actionCoordinator;
+        }
 
         public string ParseInput(Guid characterID, string input)
         {
