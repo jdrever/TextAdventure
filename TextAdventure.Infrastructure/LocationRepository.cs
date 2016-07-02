@@ -40,6 +40,7 @@ namespace TextAdventure.Infrastructure
 
         public GameLocation GetCharactersLocation(Guid characterID)
         {
+            //TODO: what happens if there isn't a file yet?
             string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string fileDir = System.IO.File.ReadAllText($@"{appdata}\.textadventure\Logs\{characterID}.txt");
             return GetLocation(fileDir);

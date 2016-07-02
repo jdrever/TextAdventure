@@ -18,5 +18,12 @@ namespace TextAdventure.MVC.Controllers
         {
             return View();
         }
+
+        public ActionResult SubmitInput(string inputText)
+        {
+            //TODO: need to keep track of the charcter's GUID
+            _parser.ParseInput(new Guid(), inputText);
+            return View("Index");
+        }
     }
 }
