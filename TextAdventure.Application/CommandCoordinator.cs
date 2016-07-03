@@ -5,14 +5,14 @@ using TextAdventure.Interface;
 
 namespace TextAdventure.Application
 {
-    public class ActionCoordinator : IActionCoordinator
+    public class CommandCoordinator : ICommandCoordinator
     {
-        private readonly ICommandActioner _commandActioner;
+        private readonly ICommandExecutor _commandActioner;
         private readonly IObjectRepository _objectRepository;
 
 
         
-        public ActionCoordinator(ICommandActioner commandActioner, IObjectRepository objectRepository)
+        public CommandCoordinator(ICommandExecutor commandActioner, IObjectRepository objectRepository)
         {
             if (commandActioner == null) throw new ArgumentNullException("commandActioner");
             if (objectRepository == null) throw new ArgumentNullException("objectRepository");

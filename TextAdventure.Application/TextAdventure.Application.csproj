@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionCoordinator.cs" />
-    <Compile Include="CommandActioner.cs" />
+    <Compile Include="CommandCoordinator.cs" />
+    <Compile Include="CommandExecutor.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

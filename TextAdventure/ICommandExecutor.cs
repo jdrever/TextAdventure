@@ -2,7 +2,7 @@
 
 namespace TextAdventure.Interface
 {
-    public interface ICommandActioner
+    public interface ICommandExecutor
     {
         CommandOperationStatus Take(GameObject gameObject, GameCharacter gameCharacter);
         CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter, GameLocation location);

@@ -39,9 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IActionCoordinator.cs" />
+    <Compile Include="ICommandCoordinator.cs" />
     <Compile Include="ILocationRepository.cs" />
-    <Compile Include="ICommandActioner.cs" />
+    <Compile Include="ICommandExecutor.cs" />
     <Compile Include="IInterpreter.cs" />
     <Compile Include="IObjectRepository.cs" />
     <Compile Include="IParser.cs" />

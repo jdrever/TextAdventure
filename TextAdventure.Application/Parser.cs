@@ -6,11 +6,11 @@ namespace TextAdventure.Application
 {
     public class Parser : IParser
     {
-        private readonly IActionCoordinator _actionCoordinator;
+        private readonly ICommandCoordinator _actionCoordinator;
 
         //TODO: reinstate ActionCoordinator dependency
 
-        public Parser(IActionCoordinator actionCoordinator)
+        public Parser(ICommandCoordinator actionCoordinator)
         {
             if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
             _actionCoordinator = actionCoordinator;

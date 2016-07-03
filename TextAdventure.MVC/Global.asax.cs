@@ -39,8 +39,8 @@ namespace TextAdventure.MVC
             //builder.RegisterFilterProvider();
 
             builder.RegisterType<Parser>().As<IParser>();
-            builder.RegisterType<ActionCoordinator>().As<IActionCoordinator>();
-            builder.RegisterType<CommandActioner>().As<ICommandActioner>();
+            builder.RegisterType<CommandCoordinator>().As<ICommandCoordinator>();
+            builder.RegisterType<CommandExecutor>().As<ICommandExecutor>();
             builder.RegisterType<ObjectRepository>().As<IObjectRepository>();
             builder.RegisterType<LocationRepository>().As<ILocationRepository>();
             // Set the dependency resolver to be Autofac.
