@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using TextAdventure.Domain;
-using TextAdventure.Infrastructure;
 using TextAdventure.Interface;
 
 namespace TextAdventure.Application
@@ -15,6 +13,14 @@ namespace TextAdventure.Application
 
             try
             {
+
+                if (gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
+                {
+                    status.Message = gameCharacter.Name + " already has " + gameObject.Name;
+                    status.Status = false;
+                    return status;
+                }
+
                 RemoveDirectPossessionRelationships(gameObject);
                 gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
 
