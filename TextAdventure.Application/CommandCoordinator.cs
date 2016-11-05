@@ -7,16 +7,14 @@ namespace TextAdventure.Application
 {
     public class CommandCoordinator : ICommandCoordinator
     {
-        private readonly ICommandExecutor _commandActioner;
+        private readonly ICommandExecutor _commandExecutor;
         private readonly IObjectRepository _objectRepository;
-
-
         
-        public CommandCoordinator(ICommandExecutor commandActioner, IObjectRepository objectRepository)
+        public CommandCoordinator(ICommandExecutor commandExecutor, IObjectRepository objectRepository)
         {
-            if (commandActioner == null) throw new ArgumentNullException("commandActioner");
+            if (commandExecutor == null) throw new ArgumentNullException("commandExecutor");
             if (objectRepository == null) throw new ArgumentNullException("objectRepository");
-            _commandActioner = commandActioner;
+            _commandExecutor = commandExecutor;
             _objectRepository = objectRepository;
         }
         
@@ -28,7 +26,7 @@ namespace TextAdventure.Application
 
             var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
-            return _commandActioner.Take(selectedObject, selectedCharacter);
+            return _commandExecutor.Take(selectedObject, selectedCharacter);
         }
 
         public CommandOperationStatus Drop(string objectName, Guid characterID)
@@ -39,7 +37,7 @@ namespace TextAdventure.Application
 
             var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
-            return _commandActioner.Drop(selectedObject, selectedCharacter, location);
+            return _commandExecutor.Drop(selectedObject, selectedCharacter, location);
         }
     }
 }

@@ -13,7 +13,6 @@ namespace TextAdventure.Application
 
             try
             {
-
                 if (gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
                 {
                     status.Message = gameCharacter.Name + " already has " + gameObject.Name;

@@ -109,6 +109,7 @@ namespace TextAdventure.Domain
             return false;
         }
 
+        // shouldn't be here
         public void Move(GameBaseObject currentParent, RelationshipType relationshipType, GameBaseObject newParent)
         {
             // if a relationship exists between this and the soon-to-be old parent

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Collections;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using TextAdventure.Domain;
 using TextAdventure.Infrastructure;
-using System.Threading;
 using TextAdventure.Application;
 
 namespace TextAdventure.UnitTests
@@ -58,7 +53,6 @@ namespace TextAdventure.UnitTests
 
             var takestatus = parser.ParseInput(mainCharacter.ID, "take Wallet");
             Assert.AreEqual(takestatus, "Alfie Drever took Wallet");
-
         }
     }
 }

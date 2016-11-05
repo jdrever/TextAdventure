@@ -6,14 +6,14 @@ namespace TextAdventure.Application
 {
     public class Parser : IParser
     {
-        private readonly ICommandCoordinator _actionCoordinator;
+        private readonly ICommandCoordinator _commandCoordinator;
 
         //TODO: reinstate ActionCoordinator dependency
 
-        public Parser(ICommandCoordinator actionCoordinator)
+        public Parser(ICommandCoordinator commandCoordinator)
         {
-            if (actionCoordinator == null) throw new ArgumentNullException("actionCoordinator");
-            _actionCoordinator = actionCoordinator;
+            if (commandCoordinator == null) throw new ArgumentNullException("commandCoordinator");
+            _commandCoordinator = commandCoordinator;
         }
 
         public string ParseInput(Guid characterID, string input)
@@ -25,9 +25,9 @@ namespace TextAdventure.Application
             switch (firstWord)
             {
                 case "TAKE":
-                    return _actionCoordinator.Take(secondWords, characterID).Message;
+                    return _commandCoordinator.Take(secondWords, characterID).Message;
                 case "DROP":
-                    return _actionCoordinator.Drop(secondWords, characterID).Message;
+                    return _commandCoordinator.Drop(secondWords, characterID).Message;
             }
             return "I didn't understand!";
         }
