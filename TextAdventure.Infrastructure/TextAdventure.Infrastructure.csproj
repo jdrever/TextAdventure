@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LocationRepository.cs" />
-    <Compile Include="ObjectRepository.cs" />
+    <Compile Include="JsonObjectRepository.cs" />
+    <Compile Include="JsonRelationshipRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,14 +12,19 @@ namespace TextAdventure.Application
         
         public CommandCoordinator(ICommandExecutor commandExecutor, IObjectRepository objectRepository)
         {
-            if (commandExecutor == null) throw new ArgumentNullException("commandExecutor");
-            if (objectRepository == null) throw new ArgumentNullException("objectRepository");
+            if (commandExecutor == null) throw new ArgumentNullException(nameof(commandExecutor));
+            if (objectRepository == null) throw new ArgumentNullException(nameof(objectRepository));
             _commandExecutor = commandExecutor;
             _objectRepository = objectRepository;
         }
+
         
-        public CommandOperationStatus Take(string objectName, Guid characterID)
+        
+        public CommandOperationStatus Take(string objectName, Guid characterId)
         {
+            throw new NotImplementedException();
+
+            /*
             var location = new LocationRepository().GetCharactersLocation(characterID);
 
             var selectedCharacter = _objectRepository.GetObjectFromID<GameCharacter>(characterID, location);
@@ -27,10 +32,14 @@ namespace TextAdventure.Application
             var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
             return _commandExecutor.Take(selectedObject, selectedCharacter);
+            */
         }
 
-        public CommandOperationStatus Drop(string objectName, Guid characterID)
+        public CommandOperationStatus Drop(string objectName, Guid characterId)
         {
+            throw new NotImplementedException();
+
+            /*
             var location = new LocationRepository().GetCharactersLocation(characterID);
 
             var selectedCharacter = _objectRepository.GetObjectFromID<GameCharacter>(characterID, location);
@@ -38,6 +47,8 @@ namespace TextAdventure.Application
             var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
             return _commandExecutor.Drop(selectedObject, selectedCharacter, location);
+            */
         }
+        
     }
 }

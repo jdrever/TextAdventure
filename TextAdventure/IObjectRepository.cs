@@ -5,7 +5,9 @@ namespace TextAdventure.Interface
 {
     public interface IObjectRepository
     {
-        T GetObjectFromName<T>(string objectName, GameBaseObject baseObject) where T : GameBaseObject;
-        T GetObjectFromID<T>(Guid ID, GameBaseObject baseObject) where T : GameBaseObject;
+        T GetObject<T>(Guid id) where T : GameBaseObject;
+
+        void Add(GameBaseObject gameObject);
+        void Remove(Guid id);
     }
 }

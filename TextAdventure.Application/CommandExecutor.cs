@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using TextAdventure.Domain;
 using TextAdventure.Interface;
 
@@ -13,6 +12,7 @@ namespace TextAdventure.Application
 
             try
             {
+                /*
                 if (gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
                 {
                     status.Message = gameCharacter.Name + " already has " + gameObject.Name;
@@ -22,6 +22,7 @@ namespace TextAdventure.Application
 
                 RemoveDirectPossessionRelationships(gameObject);
                 gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
+                */
 
                 status.Message = gameCharacter.Name + " took " + gameObject.Name;
                 status.Status = true;
@@ -41,6 +42,7 @@ namespace TextAdventure.Application
 
             try
             {
+                /*
                 RemoveDirectPossessionRelationships(gameObject);
 
                 if (!gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
@@ -51,6 +53,7 @@ namespace TextAdventure.Application
                 }
 
                 location.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, gameObject);
+                */
 
                 status.Message = gameCharacter.Name + " dropped " + gameObject.Name;
                 status.Status = true;
@@ -62,16 +65,6 @@ namespace TextAdventure.Application
             }
 
             return status;
-        }
-
-        private void RemoveDirectPossessionRelationships(GameBaseObject gameobject)
-        {
-            var directPossessionRelationships = gameobject.Relationships.Where(relationship => relationship.RelationshipDirection == RelationshipDirection.ChildToParent && (relationship.RelationshipType == RelationshipType.Contains || relationship.RelationshipType == RelationshipType.IsUnder || relationship.RelationshipType == RelationshipType.LeadsTo || relationship.RelationshipType == RelationshipType.IsHeldBy)).ToList();
-
-            foreach (var relationship in directPossessionRelationships)
-            {
-                gameobject.RemoveRelationship(relationship);
-            }
         }
     }
 }

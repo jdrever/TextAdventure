@@ -40,11 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICommandCoordinator.cs" />
-    <Compile Include="ILocationRepository.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="IInterpreter.cs" />
     <Compile Include="IObjectRepository.cs" />
     <Compile Include="IParser.cs" />
+    <Compile Include="IRelationshipRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
