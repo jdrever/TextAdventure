@@ -131,6 +131,16 @@ namespace TextAdventure.Domain
 
         public Guid ParentObjectId { get; set; }
         public Guid ChildObjectId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var o = obj as GameObjectRelationship;
+            if (o != null)
+            {
+                return o.ChildObjectId == ChildObjectId && o.ParentObjectId == ParentObjectId && o.RelationshipType == RelationshipType;
+            }
+            return base.Equals(obj);
+        }
     }
 
     public enum RelationshipType

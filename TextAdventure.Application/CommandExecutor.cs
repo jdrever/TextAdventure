@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TextAdventure.Domain;
 using TextAdventure.Interface;
 
@@ -6,37 +7,36 @@ namespace TextAdventure.Application
 {
     public class CommandExecutor : ICommandExecutor
     {
-        public CommandOperationStatus Take(GameObject gameObject, GameCharacter gameCharacter)
+        public CommandOperationStatus Take(GameObject gameObject, GameCharacter gameCharacter, IRelationshipRepository relationshipRepository)
         {
-            var status = new CommandOperationStatus();
-
             try
             {
-                /*
-                if (gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
+                // If the character already has the object, return false with message.
+
+                if (relationshipRepository.GetObjectRelationships(gameObject.Id).Any(r =>
+                    r.ParentObjectId == gameCharacter.Id &&
+                    r.ChildObjectId == gameObject.Id &&
+                    r.RelationshipType == RelationshipType.IsHeldBy))
                 {
-                    status.Message = gameCharacter.Name + " already has " + gameObject.Name;
-                    status.Status = false;
-                    return status;
+                    return new CommandOperationStatus {Message = "Character already has that!", Status = false};
                 }
 
-                RemoveDirectPossessionRelationships(gameObject);
-                gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
-                */
+                // Remove the relationship where the object is the child
+                // Todo - Catch object having no relationships
+                relationshipRepository.Remove(relationshipRepository.GetObjectRelationships(gameObject.Id).First(r => r.ChildObjectId == gameObject.Id));
 
-                status.Message = gameCharacter.Name + " took " + gameObject.Name;
-                status.Status = true;
+                // Add heldby relationship between character and object
+                relationshipRepository.Add(new GameObjectRelationship(gameCharacter.Id, gameObject.Id, RelationshipType.IsHeldBy));
+                
+                return new CommandOperationStatus { Message = gameCharacter.Name + " took " + gameObject.Name, Status = true};
             }
             catch (Exception e)
             {
-                status.Message = e.Message;
-                status.Status = false;
+                return new CommandOperationStatus { Message = e.Message, Status = false};
             }
-
-            return status;
         }
 
-        public CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter, GameLocation location)
+        public CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter, GameLocation location, IRelationshipRepository relationshipRepository)
         {
             var status = new CommandOperationStatus();
 

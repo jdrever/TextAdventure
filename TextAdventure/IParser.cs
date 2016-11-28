@@ -5,6 +5,6 @@ namespace TextAdventure.Interface
 {
     public interface IParser
     {
-        string ParseInput(Guid characterID, string input);
+        CommandOperationStatus ParseInput(Guid characterID, string input);
     }
 }

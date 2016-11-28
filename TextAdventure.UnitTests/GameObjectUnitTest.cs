@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TextAdventure.Application;
 using TextAdventure.Domain;
 using TextAdventure.Infrastructure;
 
@@ -14,6 +15,8 @@ namespace TextAdventure.UnitTests
         {
             var objectRepo = new JsonObjectRepository();
 
+            var relationshipRepo = new JsonRelationshipRepository();
+
             // create dir if it doesn't already exist, for testing with json
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.textadventure\Logs\");
 
@@ -24,9 +27,24 @@ namespace TextAdventure.UnitTests
             };
             objectRepo.Add(entireWorld);
 
-            var loadedWorld = objectRepo.GetObject<GameContainer>(entireWorld.Id);
+            var room = new GameLocation("A room");
+            objectRepo.Add(room);
 
-            Assert.AreEqual(entireWorld, loadedWorld);
+            relationshipRepo.Add(new GameObjectRelationship(entireWorld.Id, room.Id, RelationshipType.Contains));
+
+            var character = new GameCharacter("Player");
+            objectRepo.Add(character);
+
+            relationshipRepo.Add(new GameObjectRelationship(room.Id, character.Id, RelationshipType.Contains));
+
+            var sword = new GameObject("Sword");
+            objectRepo.Add(sword);
+
+            relationshipRepo.Add(new GameObjectRelationship(room.Id, sword.Id, RelationshipType.Contains));
+
+            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), objectRepo, relationshipRepo));
+
+            Assert.IsTrue(parser.ParseInput(character.Id, "take Sword").Status);
         }
     }
 }

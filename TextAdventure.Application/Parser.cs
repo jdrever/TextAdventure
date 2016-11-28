@@ -16,7 +16,7 @@ namespace TextAdventure.Application
             _commandCoordinator = commandCoordinator;
         }
 
-        public string ParseInput(Guid characterID, string input)
+        public CommandOperationStatus ParseInput(Guid characterId, string input)
         {
             var words = input.Split(' ');
             var firstWord = words[0].ToUpper();
@@ -25,11 +25,13 @@ namespace TextAdventure.Application
             switch (firstWord)
             {
                 case "TAKE":
-                    return _commandCoordinator.Take(secondWords, characterID).Message;
+                    return _commandCoordinator.Take(secondWords, characterId);
                 case "DROP":
-                    return _commandCoordinator.Drop(secondWords, characterID).Message;
+                    return _commandCoordinator.Drop(secondWords, characterId);
+                default:
+                    break;
             }
-            return "I didn't understand!";
+            return new CommandOperationStatus{Message = "I didn't understand!", Status = false};
         }
     }
 }
