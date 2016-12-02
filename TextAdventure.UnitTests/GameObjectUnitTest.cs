@@ -40,11 +40,11 @@ namespace TextAdventure.UnitTests
             var sword = new GameObject("Sword");
             objectRepo.Add(sword);
 
-            relationshipRepo.Add(new GameObjectRelationship(room.Id, sword.Id, RelationshipType.Contains));
+            relationshipRepo.Add(new GameObjectRelationship(character.Id, sword.Id, RelationshipType.IsHeldBy));
 
             var parser = new Parser(new CommandCoordinator(new CommandExecutor(), objectRepo, relationshipRepo));
 
-            Assert.IsTrue(parser.ParseInput(character.Id, "take Sword").Status);
+            Assert.IsTrue(parser.ParseInput(character.Id, "Drop Sword").Status);
         }
     }
 }

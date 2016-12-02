@@ -21,8 +21,8 @@ namespace TextAdventure.Application
                     return new CommandOperationStatus {Message = "Character already has that!", Status = false};
                 }
 
-                // Remove the relationship where the object is the child
-                // Todo - Catch object having no relationships
+                // Remove the relationship where the object is the child - there is no other way for the object to be within something
+                // Todo - Catch object having no relationships?
                 relationshipRepository.Remove(relationshipRepository.GetObjectRelationships(gameObject.Id).First(r => r.ChildObjectId == gameObject.Id));
 
                 // Add heldby relationship between character and object
@@ -38,33 +38,43 @@ namespace TextAdventure.Application
 
         public CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter, GameLocation location, IRelationshipRepository relationshipRepository)
         {
-            var status = new CommandOperationStatus();
-
             try
             {
-                /*
-                RemoveDirectPossessionRelationships(gameObject);
+                // Remove object from character
 
-                if (!gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
+                // Check that the character has this object
+                // Can only drop objects the character is directly holding
+                if (relationshipRepository.GetObjectRelationships(gameCharacter.Id).Any(rel =>
+                    rel.ParentObjectId == gameCharacter.Id &&
+                    rel.RelationshipType == RelationshipType.IsHeldBy &&
+                    rel.ChildObjectId == gameObject.Id))
                 {
-                    status.Message = gameCharacter.Name + " doesn't have " + gameObject.Name;
-                    status.Status = false;
-                    return status;
+                    relationshipRepository.Remove(
+                        relationshipRepository.GetObjectRelationships(gameCharacter.Id).First(rel =>
+                            rel.ParentObjectId == gameCharacter.Id &&
+                            rel.RelationshipType == RelationshipType.IsHeldBy &&
+                            rel.ChildObjectId == gameObject.Id));
+                }
+                else
+                {
+                    return new CommandOperationStatus {Status = false, Message = "Character is not holding that object"};
                 }
 
-                location.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, gameObject);
-                */
+                // Insert into location
 
-                status.Message = gameCharacter.Name + " dropped " + gameObject.Name;
-                status.Status = true;
+                relationshipRepository.Add(new GameObjectRelationship(location.Id, gameObject.Id,
+                    RelationshipType.Contains));
+
+                return new CommandOperationStatus
+                {
+                    Message = gameCharacter.Name + " dropped " + gameObject.Name,
+                    Status = true
+                };
             }
             catch (Exception e)
             {
-                status.Message = e.Message;
-                status.Status = false;
+                return new CommandOperationStatus { Message = e.Message, Status = false };
             }
-
-            return status;
         }
     }
 }

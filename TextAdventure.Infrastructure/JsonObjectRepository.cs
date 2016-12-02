@@ -16,9 +16,13 @@ namespace TextAdventure.Infrastructure
             {
                 var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 var json = File.ReadAllText($@"{appdata}\.textadventure\Logs\{id}.txt");
-                return JsonConvert.DeserializeObject<T>(json);
+                return (T) JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             }
             catch (FileNotFoundException)
+            {
+                return null;
+            }
+            catch (InvalidCastException)
             {
                 return null;
             }
@@ -29,7 +33,7 @@ namespace TextAdventure.Infrastructure
         // e.g the idMap needs to be loaded from a file instead of being dynamically created each time.
         public void Add(GameBaseObject gameObject)
         {
-            var json = JsonConvert.SerializeObject(gameObject, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(gameObject, Formatting.Indented, JsonSerializerSettings);
 
             var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             File.WriteAllText($@"{appdata}\.textadventure\Logs\{gameObject.Id}.txt", json);
@@ -42,6 +46,11 @@ namespace TextAdventure.Infrastructure
             var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             File.Delete($@"{appdata}\.textadventure\Logs\{id}.txt");
         }
+
+        private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
 
         private readonly Dictionary<string, Guid> _idMap = new Dictionary<string, Guid>();
         
