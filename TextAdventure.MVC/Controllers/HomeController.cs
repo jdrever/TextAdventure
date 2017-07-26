@@ -22,7 +22,7 @@ namespace TextAdventure.MVC.Controllers
         public ActionResult SubmitInput(string inputText)
         {
             //TODO: need to keep track of the charcter's GUID
-            _parser.ParseInput(new Guid(), inputText);
+            //_parser.ParseInput(new Guid(), inputText);
             return View("Index");
         }
     }

@@ -18,7 +18,7 @@ namespace TextAdventure.Application
                     r.ChildObjectId == gameObject.Id &&
                     r.RelationshipType == RelationshipType.IsHeldBy))
                 {
-                    return new CommandOperationStatus {Message = "Character already has that!", Status = false};
+                    return new CommandOperationStatus {Message = $"{gameCharacter.Name} already has that!", Status = false};
                 }
 
                 // Remove the relationship where the object is the child - there is no other way for the object to be within something
@@ -28,7 +28,7 @@ namespace TextAdventure.Application
                 // Add heldby relationship between character and object
                 relationshipRepository.Add(new GameObjectRelationship(gameCharacter.Id, gameObject.Id, RelationshipType.IsHeldBy));
                 
-                return new CommandOperationStatus { Message = gameCharacter.Name + " took " + gameObject.Name, Status = true};
+                return new CommandOperationStatus { Message = $"{gameCharacter.Name} took {gameObject.Name}", Status = true};
             }
             catch (Exception e)
             {
@@ -57,17 +57,16 @@ namespace TextAdventure.Application
                 }
                 else
                 {
-                    return new CommandOperationStatus {Status = false, Message = "Character is not holding that object"};
+                    return new CommandOperationStatus {Status = false, Message = $"{gameCharacter.Name} is not holding that object" };
                 }
 
                 // Insert into location
-
                 relationshipRepository.Add(new GameObjectRelationship(location.Id, gameObject.Id,
                     RelationshipType.Contains));
 
                 return new CommandOperationStatus
                 {
-                    Message = gameCharacter.Name + " dropped " + gameObject.Name,
+                    Message = $"{gameCharacter.Name} dropped {gameObject.Name}",
                     Status = true
                 };
             }
@@ -75,6 +74,36 @@ namespace TextAdventure.Application
             {
                 return new CommandOperationStatus { Message = e.Message, Status = false };
             }
+        }
+
+        public CommandOperationStatus Describe(GameBaseObject gameObject, GameCharacter gameCharacter, IRelationshipRepository relationshipRepository, IObjectRepository objectRepository)
+        {
+            // print description of gameobject; goto next object
+            var message = gameObject.Description != null ? gameObject.Description : "";
+
+            if (gameObject is GameLocation)
+            {
+                message = $"You are in {message}";
+
+                if (relationshipRepository.GetObjectRelationships(gameObject.Id).Any(rel =>
+                    rel.ParentObjectId == gameObject.Id &&
+                    rel.RelationshipType == RelationshipType.Contains &&
+                    rel.ChildObjectId != gameCharacter.Id))
+                {
+                    message += "\nYou can see ";
+
+                    foreach (var relationship in relationshipRepository.GetObjectRelationships(gameObject.Id).Where(rel =>
+                        rel.ParentObjectId == gameObject.Id &&
+                        rel.RelationshipType == RelationshipType.Contains &&
+                        rel.ChildObjectId != gameCharacter.Id))
+                    {
+                        var relationshipChild = objectRepository.Get<GameBaseObject>(relationship.ChildObjectId);
+                        message += (relationshipChild.Description != null ? relationshipChild.Description : relationshipChild.Name) + " ";
+                    }
+                }
+            }
+
+            return new CommandOperationStatus() { Message = message != "" ? message : "There is nothing worthwhile here", Status = true };
         }
     }
 }

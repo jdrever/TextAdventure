@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TextAdventure.Domain;
 using TextAdventure.Interface;
 
@@ -18,20 +19,34 @@ namespace TextAdventure.Application
 
         public CommandOperationStatus ParseInput(Guid characterId, string input)
         {
-            var words = input.Split(' ');
-            var firstWord = words[0].ToUpper();
-            var secondWords = words[1];
+            // cuts of the first word as the command word and any other words
+            string commandWord;
+            string otherWords;
 
-            switch (firstWord)
+            try
+            {
+                commandWord = input.Substring(0, input.IndexOf(' ')).ToUpper();
+                otherWords = input.Substring(input.IndexOf(' ') + 1);
+            }
+            catch (Exception e) when (e is IndexOutOfRangeException || e is ArgumentOutOfRangeException)
+            {
+                return new CommandOperationStatus { Message = "I didn't understand that input!", Status = false };
+            }
+
+            if (string.IsNullOrWhiteSpace(otherWords))
+                return new CommandOperationStatus { Message = "Only command given!", Status = false };
+
+            switch (commandWord)
             {
                 case "TAKE":
-                    return _commandCoordinator.Take(secondWords, characterId);
+                    return _commandCoordinator.Take(otherWords, characterId);
                 case "DROP":
-                    return _commandCoordinator.Drop(secondWords, characterId);
+                    return _commandCoordinator.Drop(otherWords, characterId);
+                case "LOOK":
+                    return _commandCoordinator.Look(otherWords, characterId);
                 default:
-                    break;
+                    return new CommandOperationStatus { Message = "I didn't understand that command word!", Status = false };
             }
-            return new CommandOperationStatus{Message = "I didn't understand!", Status = false};
         }
-    }
+    }           
 }

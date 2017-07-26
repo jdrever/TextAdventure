@@ -7,5 +7,6 @@ namespace TextAdventure.Interface
     {
         CommandOperationStatus Take(string objectName, Guid characterID);
         CommandOperationStatus Drop(string objectName, Guid characterID);
+        CommandOperationStatus Look(string whereToLook, Guid characterID);
     }
 }

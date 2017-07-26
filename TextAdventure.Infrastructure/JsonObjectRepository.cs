@@ -27,8 +27,7 @@ namespace TextAdventure.Infrastructure
                 return null;
             }
         }
-
-        // Todo - update? (if given an object that is already saved, Add will update...)
+        
         // Todo - currently, everything is reset and created each time the test runs. This will need to change.
         // e.g the idMap needs to be loaded from a file instead of being dynamically created each time.
         public void Add(GameBaseObject gameObject)
@@ -38,7 +37,7 @@ namespace TextAdventure.Infrastructure
             var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             File.WriteAllText($@"{appdata}\.textadventure\Logs\{gameObject.Id}.txt", json);
 
-            _idMap.Add(gameObject.Name, gameObject.Id);
+            _idMap.Add(gameObject.Name.ToLower(), gameObject.Id);
         }
 
         public void Remove(Guid id)
@@ -58,7 +57,7 @@ namespace TextAdventure.Infrastructure
         {
             try
             {
-                return _idMap[name];
+                return _idMap[name.ToLower()];
             }
             catch (KeyNotFoundException)
             {

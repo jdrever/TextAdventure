@@ -1,17 +1,14 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextAdventure.Application;
 using TextAdventure.Domain;
 using TextAdventure.Infrastructure;
 
-namespace TextAdventure.UnitTests
+namespace Console
 {
-    [TestClass]
-    public class GameObjectUnitTest
+    class Program
     {
-        [TestMethod]
-        public void TestCreateWorld()
+        static void Main(string[] args)
         {
             var objectRepo = new JsonObjectRepository();
 
@@ -27,7 +24,8 @@ namespace TextAdventure.UnitTests
             };
             objectRepo.Add(entireWorld);
 
-            var room = new GameLocation("A room");
+            var room = new GameLocation("A room")
+            { Description = "A small room with walls made from stone bricks. There are no obvious windows but one wall holds a locked wooden door." };
             objectRepo.Add(room);
 
             relationshipRepo.Add(new GameObjectRelationship(entireWorld.Id, room.Id, RelationshipType.Contains));
@@ -37,16 +35,23 @@ namespace TextAdventure.UnitTests
 
             relationshipRepo.Add(new GameObjectRelationship(room.Id, character.Id, RelationshipType.Contains));
 
-            var sword = new GameObject("Sword");
+            var sword = new GameObject("Sword") {Description = "A blunt, battered-looking longsword."};
             objectRepo.Add(sword);
 
             relationshipRepo.Add(new GameObjectRelationship(character.Id, sword.Id, RelationshipType.IsHeldBy));
 
+            var shield = new GameObject("Shield") {Description = "A dented wooden circular shield."};
+            objectRepo.Add(shield);
+
+            relationshipRepo.Add(new GameObjectRelationship(room.Id, shield.Id, RelationshipType.Contains));
+
             var parser = new Parser(new CommandCoordinator(new CommandExecutor(), objectRepo, relationshipRepo));
 
-            parser.ParseInput(character.Id, "take Sword");
-
-            Assert.IsTrue(parser.ParseInput(character.Id, "Drop Sword").Status);
+            while (true)
+            {
+                var result = parser.ParseInput(character.Id, System.Console.ReadLine()).Message;
+                System.Console.WriteLine(result);
+            }
         }
     }
 }
