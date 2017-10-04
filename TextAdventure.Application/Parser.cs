@@ -18,18 +18,24 @@ namespace TextAdventure.Application
 
         public string ParseInput(Guid characterID, string input)
         {
-            var words = input.Split(' ');
-            var firstWord = words[0].ToUpper();
-            var secondWords = words[1];
-
-            switch (firstWord)
+            var sentences = input.Split('.');
+            foreach (string sentence in sentences)
             {
-                case "TAKE":
-                    return _actionCoordinator.Take(secondWords, characterID).Message;
-                case "DROP":
-                    return _actionCoordinator.Drop(secondWords, characterID).Message;
+                var words = sentence.Split(' ');
+                var firstWord = words[0].ToUpper();
+                var secondWords = words[1];
+
+                switch (firstWord)
+                {
+                    case "TAKE":
+                        return _actionCoordinator.Take(secondWords, characterID).Message;
+                    case "DROP":
+                        return _actionCoordinator.Drop(secondWords, characterID).Message;
+                }
+                return "I didn't understand!";
             }
-            return "I didn't understand!";
+
+            
         }
     }
 }
