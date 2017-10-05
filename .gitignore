@@ -316,3 +316,5 @@ _Pvt_Extensions
 
 # ImageProcessor DiskCache 
 **/App_Data/cache/
+
+**/App_Data/TEMP/PluginCache/
