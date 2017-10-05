@@ -39,6 +39,7 @@ namespace TextAdventure.MVC
             //builder.RegisterFilterProvider();
 
             builder.RegisterType<Parser>().As<IParser>();
+            builder.RegisterType<TextSimplifier>().As<ITextSimplifier>();
             builder.RegisterType<CommandCoordinator>().As<ICommandCoordinator>();
             builder.RegisterType<CommandExecutor>().As<ICommandExecutor>();
             builder.RegisterType<ObjectRepository>().As<IObjectRepository>();

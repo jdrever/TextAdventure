@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Interface", "TextAdventure\TextAdventure.Interface.csproj", "{DE25544F-02D5-4F4B-8BED-3B766FB3011B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Domain", "TextAdventure.Domain\TextAdventure.Domain.csproj", "{47E98B8D-C367-4FE6-94DE-3676F00DFA9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.UnitTests", "TextAdventure.UnitTests\TextAdventure.UnitTests.csproj", "{82C82BCD-B170-4C93-9E77-B5B6198B1173}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Tests", "TextAdventure.UnitTests\TextAdventure.Tests.csproj", "{82C82BCD-B170-4C93-9E77-B5B6198B1173}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Application", "TextAdventure.Application\TextAdventure.Application.csproj", "{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.MVC", "TextAdventure.MVC\TextAdventure.MVC.csproj", "{1038DEA6-8B5C-41F7-8567-1A1C04A2CB5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.MVC.Tests", "TextAdventure.MVC.Tests\TextAdventure.MVC.Tests.csproj", "{C3909276-9424-4227-BFE7-5466A93A6004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Umbraco", "TextAdventure.Umbraco\TextAdventure.Umbraco.csproj", "{D5565F2A-82FB-439C-A6A9-0C2BE4995B82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{C3909276-9424-4227-BFE7-5466A93A6004}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3909276-9424-4227-BFE7-5466A93A6004}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3909276-9424-4227-BFE7-5466A93A6004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5565F2A-82FB-439C-A6A9-0C2BE4995B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5565F2A-82FB-439C-A6A9-0C2BE4995B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5565F2A-82FB-439C-A6A9-0C2BE4995B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5565F2A-82FB-439C-A6A9-0C2BE4995B82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
