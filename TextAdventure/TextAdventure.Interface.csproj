@@ -45,6 +45,7 @@
     <Compile Include="IInterpreter.cs" />
     <Compile Include="IObjectRepository.cs" />
     <Compile Include="IParser.cs" />
+    <Compile Include="ITextSimplifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

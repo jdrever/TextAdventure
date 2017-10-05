@@ -13,7 +13,7 @@ using TextAdventure.Application;
 namespace TextAdventure.UnitTests
 {
     [TestClass]
-    public class GameObjectUnitTest
+    public class GameObjectIntegrationTest
     {
         [TestMethod]
         public void TestCreateWorld()
@@ -50,7 +50,7 @@ namespace TextAdventure.UnitTests
             landing.Description = "Area of carpeted land outside bedroom door";
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, landing);
 
-            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), new ObjectRepository()));
+            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), new ObjectRepository()),new TextSimplifier());
 
             var lo = new LocationRepository();
 
