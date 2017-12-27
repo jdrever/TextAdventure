@@ -16,6 +16,26 @@ namespace TextAdventure.Domain
         }
 
 
+        public override string ToString()
+        {
+            string text = Name+". ";
+            if (!String.IsNullOrWhiteSpace(Description))
+            {
+                text +=Description + ". ";
+            }
+            var containedObjects =
+                Relationships.Where(p => p.RelationshipType == RelationshipType.Contains && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo);
+            if (containedObjects.Count() > 0)
+            {
+                text += "You can see: ";
+                foreach (var containedObject in containedObjects)
+                {
+                    text += containedObject.Name + " ";
+                }
+            }
+            return text;
+        }
+
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -167,11 +187,16 @@ namespace TextAdventure.Domain
             Name = name;
         }
 
+
+
+
         public float WidthInMetres { get; set; }
         public float HeightInMetres { get; set; }
         public bool IsOpenable { get; set; }
         public bool IsTakeable { get; set; }
         public bool IsClimbable { get; set; }
+
+        public bool IsOpen { get; set; }
 
     }
 
@@ -198,6 +223,16 @@ namespace TextAdventure.Domain
         }
 
         public decimal FinancialValue { get; set; }
+    }
+
+    public class Phone : GameObject
+    {   
+        public Phone(string name, string phoneNumber)
+        {
+            Name = name;
+            PhoneNumber = phoneNumber;
+        }
+        public string PhoneNumber { get; set;  }
     }
 
     [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]

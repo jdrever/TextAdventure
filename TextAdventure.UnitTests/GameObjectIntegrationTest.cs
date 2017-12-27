@@ -21,8 +21,8 @@ namespace TextAdventure.UnitTests
             // create dir if it doesn't already exist, for testing with json
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.textadventure\Logs\");
 
-            var entireWorld = new GameContainer();
-            entireWorld.Name = "Entire World";
+            var entireWorld = new GameContainer("Entire World");
+         
 
             var bedroom = new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
