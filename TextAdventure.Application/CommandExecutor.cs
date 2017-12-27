@@ -24,7 +24,7 @@ namespace TextAdventure.Application
                 RemoveDirectPossessionRelationships(gameObject);
                 gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
 
-                status.Message = gameCharacter.Name + " took " + gameObject.Name;
+                status.Message = gameCharacter.Name + " takes the " + gameObject.Name;
                 status.Status = true;
             }
             catch (Exception e)
@@ -73,6 +73,49 @@ namespace TextAdventure.Application
             {
                 gameobject.RemoveRelationship(relationship);
             }
+        }
+
+        public CommandOperationStatus Open(GameObject gameObject, GameCharacter gameCharacter)
+        {
+            var status = new CommandOperationStatus();
+            if (!gameObject.IsOpenable)
+            {
+                status.Status = false;
+                status.Message = "The " + gameObject.Name + " can't be opened";
+                return status;
+            }
+            if (gameObject.IsOpen)
+            {
+                status.Status = false;
+                status.Message = "The " + gameObject.Name + " is already open";
+                return status;
+            }
+            gameObject.IsOpen = true;
+            status.Status = true;
+            status.Message = gameCharacter.Name + " has opened the " + gameObject.Name;
+            return status;
+        }
+
+        public CommandOperationStatus GoThrough(GameObject gameObject, GameCharacter gameCharacter)
+        {
+            var status = new CommandOperationStatus();
+            if (gameObject.IsOpenable && !gameObject.IsOpen)
+            {
+                status.Status = false;
+                status.Message = "The " + gameObject.Name + " isn't opened";
+                return status;
+            }
+            var leadsTo = gameObject.LeadsTo();
+            if (leadsTo == null)
+            {
+                status.Status = false;
+                status.Message = "The " + gameObject.Name + " doesn't go anywhere";
+                return status;
+            }
+            gameCharacter.Move(gameCharacter.GetCurrentLocation(), RelationshipType.Contains, leadsTo);
+            status.Status = true;
+            status.Message = gameCharacter.Name + "  goes through the " + gameObject.Name;
+            return status;
         }
     }
 }

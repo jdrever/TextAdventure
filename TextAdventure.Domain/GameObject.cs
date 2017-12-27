@@ -30,7 +30,7 @@ namespace TextAdventure.Domain
                 text += "You can see: ";
                 foreach (var containedObject in containedObjects)
                 {
-                    text += containedObject.Name + " ";
+                    text += containedObject.Name + ". ";
                 }
             }
             return text;
@@ -75,6 +75,11 @@ namespace TextAdventure.Domain
         public void LeadsTo(GameBaseObject relationshipTo)
         {
             AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public GameBaseObject LeadsTo()
+        {
+            return Relationships.Where(p => p.RelationshipType == RelationshipType.LeadsTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
         }
 
         public void RemoveRelationship(GameObjectRelationship relationship)
@@ -212,6 +217,11 @@ namespace TextAdventure.Domain
         public string FirstName => Name.Split(' ')[0];
 
         public string Surname => string.Format(Name.Replace(FirstName + " ", string.Empty));
+
+        public GameBaseObject GetCurrentLocation()
+        {
+            return Relationships.Where(p => p.RelationshipType == RelationshipType.Contains && p.RelationshipDirection == RelationshipDirection.ChildToParent).Select(a => a.RelationshipTo).First();
+        }
     }
 
     public class GameCurrencyObject : GameObject

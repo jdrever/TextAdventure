@@ -24,6 +24,7 @@ namespace TextAdventure.UnitTests
             var entireWorld = new GameContainer("Entire World");
          
 
+
             var bedroom = new GameLocation("Bedroom");
             bedroom.Description = "An untidy bedroom";
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);

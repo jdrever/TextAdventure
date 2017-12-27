@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TextAdventure.Application;
+using System.Diagnostics;
 
 namespace TextAdventure.Domain.UnitTest
 {
@@ -10,8 +12,10 @@ namespace TextAdventure.Domain.UnitTest
         public void TestMethod1()
         {
             GameContainer container = new GameContainer("Copthorne");
+            GameObject ourRoad = new GameObject("Oakfield Road");
             GameObject ourHouse = new GameObject("83 Oakfield Road") { Description = "1930s semi-detached" };
-            container.AddRelationship(RelationshipType.Contains,ourHouse);
+            container.Contains(ourRoad);
+            ourRoad.Contains(ourHouse);
             GameObject door = new GameObject("White door")
             {
                 IsOpenable = true, IsOpen = false
@@ -41,9 +45,31 @@ namespace TextAdventure.Domain.UnitTest
             var trousers = new GameObject("Trousers") { Description = "Faded blue jeans" };
             wardrobe.Contains(trousers);
 
-            string text = ourHouse.ToString();
+            var henry = new GameCharacter("Henry");
+            ourRoad.Contains(henry);
 
-            
+            Debug.Write(henry.GetCurrentLocation());
+
+            CommandExecutor commandExecutor = new CommandExecutor();
+            var status = commandExecutor.GoThrough(door, henry);
+            Debug.Write(status.Message);
+
+            status =commandExecutor.Open(door, henry);
+            Debug.Write(status.Message);
+
+            status=commandExecutor.GoThrough(door, henry);
+            Debug.Write(status.Message);
+
+            Debug.Write(henry.GetCurrentLocation());
+
+            status = commandExecutor.Take(phone, henry);
+            Debug.Write(status.Message);
+
+
+
+
+
+
 
         }
     }

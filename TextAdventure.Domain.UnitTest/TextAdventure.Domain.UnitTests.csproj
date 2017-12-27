@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TextAdventure.Application\TextAdventure.Application.csproj">
+      <Project>{A00A4DDA-AC4A-494A-8604-94FE2B8B853C}</Project>
+      <Name>TextAdventure.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TextAdventure.Domain\TextAdventure.Domain.csproj">
       <Project>{47e98b8d-c367-4fe6-94de-3676f00dfa9a}</Project>
       <Name>TextAdventure.Domain</Name>
