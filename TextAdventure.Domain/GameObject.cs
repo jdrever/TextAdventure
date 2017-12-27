@@ -15,6 +15,7 @@ namespace TextAdventure.Domain
             ID = Guid.NewGuid();
         }
 
+
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -39,6 +40,21 @@ namespace TextAdventure.Domain
             else if (relationshipDirection == RelationshipDirection.ChildToParent)
                 relationshipTo.Relationships.Add(new GameObjectRelationship(relationshipType, RelationshipDirection.ParentToChild, this));
 
+        }
+
+        public void AddRelationship(RelationshipType relationshipType,  GameBaseObject relationshipTo)
+        {
+            AddRelationship(relationshipType, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public void Contains(GameBaseObject relationshipTo)
+        {
+            AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public void LeadsTo(GameBaseObject relationshipTo)
+        {
+            AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, relationshipTo);
         }
 
         public void RemoveRelationship(GameObjectRelationship relationship)
@@ -125,6 +141,10 @@ namespace TextAdventure.Domain
     
     public class GameContainer : GameBaseObject
     {
+        public GameContainer(string name)
+        {
+            Name = name;
+        }
         public string CurrencyType { get; set; }
     }
 
@@ -151,6 +171,8 @@ namespace TextAdventure.Domain
         public float HeightInMetres { get; set; }
         public bool IsOpenable { get; set; }
         public bool IsTakeable { get; set; }
+        public bool IsClimbable { get; set; }
+
     }
 
     public class GameCharacter : GameBaseObject
