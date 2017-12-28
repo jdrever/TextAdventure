@@ -7,7 +7,7 @@ namespace TextAdventure.Application
 {
     public class CommandExecutor : ICommandExecutor
     {
-        public CommandOperationStatus Take(GameObject gameObject, GameCharacter gameCharacter)
+        public CommandOperationStatus Take(GameCharacter gameCharacter, GameObject gameObject)
         {
             var status = new CommandOperationStatus();
 
@@ -36,7 +36,7 @@ namespace TextAdventure.Application
             return status;
         }
 
-        public CommandOperationStatus Drop(GameObject gameObject, GameCharacter gameCharacter, GameLocation location)
+        public CommandOperationStatus Drop(GameCharacter gameCharacter, GameObject gameObject, GameLocation location)
         {
             var status = new CommandOperationStatus();
 
@@ -75,7 +75,7 @@ namespace TextAdventure.Application
             }
         }
 
-        public CommandOperationStatus Open(GameObject gameObject, GameCharacter gameCharacter)
+        public CommandOperationStatus Open(GameCharacter gameCharacter,GameObject gameObject)
         {
             var status = new CommandOperationStatus();
             if (!gameObject.IsOpenable)
@@ -96,7 +96,7 @@ namespace TextAdventure.Application
             return status;
         }
 
-        public CommandOperationStatus GoThrough(GameObject gameObject, GameCharacter gameCharacter)
+        public CommandOperationStatus GoThrough(GameCharacter gameCharacter,GameObject gameObject)
         {
             var status = new CommandOperationStatus();
             if (gameObject.IsOpenable && !gameObject.IsOpen)
@@ -115,6 +115,45 @@ namespace TextAdventure.Application
             gameCharacter.Move(gameCharacter.GetCurrentLocation(), RelationshipType.Contains, leadsTo);
             status.Status = true;
             status.Message = gameCharacter.Name + "  goes through the " + gameObject.Name;
+            return status;
+        }
+
+        public CommandOperationStatus GoUp(GameCharacter gameCharacter, GameObject gameObject)
+        {
+            var status = new CommandOperationStatus();
+            var goesUpTo = gameObject.GoesUpTo();
+            if (goesUpTo == null)
+            {
+                status.Status = false;
+                status.Message = "The " + gameObject.Name + " doesn't go anywhere";
+                return status;
+            }
+            gameCharacter.Move(gameCharacter.GetCurrentLocation(), RelationshipType.Contains, goesUpTo);
+            status.Status = true;
+            status.Message = gameCharacter.Name + "  goes up the " + gameObject.Name;
+            return status;
+        }
+
+        public CommandOperationStatus GoDown(GameCharacter gameCharacter, GameObject gameObject)
+        {
+            var status = new CommandOperationStatus();
+            var goesDownTo = gameObject.GoesDownTo();
+            if (goesDownTo == null)
+            {
+                status.Status = false;
+                status.Message = "The " + gameObject.Name + " doesn't go anywhere";
+                return status;
+            }
+            gameCharacter.Move(gameCharacter.GetCurrentLocation(), RelationshipType.Contains, goesDownTo);
+            status.Status = true;
+            status.Message = gameCharacter.Name + "  goes up the " + gameObject.Name;
+            return status;
+        }
+
+        public CommandOperationStatus Examine(GameCharacter gameCharacter, GameObject gameObject)
+        {
+            var status = new CommandOperationStatus();
+            status.Message = gameCharacter.Name + "  examines the " + gameObject.Name + ". " + gameObject.ToString();
             return status;
         }
     }

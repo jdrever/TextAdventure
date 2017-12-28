@@ -30,11 +30,12 @@ namespace TextAdventure.Domain.UnitTest
             var stairs = new GameObject("Stairs") { IsClimbable = true,Description="Sad looking carpet" };
             hallway.Contains(stairs);
             var landing = new GameObject("Landing");
-            stairs.LeadsTo(landing);
-            //but the stairs also lead down to the hallway? 
-            //landing.Contains(stairs);
+            stairs.GoesUpTo(landing); 
+            landing.Contains(stairs);
+            stairs.GoesDownTo(hallway);
 
-            var bedroomDoor = new GameObject("Bedroom door");
+
+            var bedroomDoor = new GameObject("Bedroom door") { IsOpenable = true, IsOpen = false };
             var bedroom = new GameObject("Bedroom");
             bedroomDoor.LeadsTo(bedroom);
             landing.Contains(bedroomDoor);
@@ -51,25 +52,30 @@ namespace TextAdventure.Domain.UnitTest
             Debug.Write(henry.GetCurrentLocation());
 
             CommandExecutor commandExecutor = new CommandExecutor();
-            var status = commandExecutor.GoThrough(door, henry);
+            var status = commandExecutor.GoThrough(henry, door);
             Debug.Write(status.Message);
 
-            status =commandExecutor.Open(door, henry);
+            status=commandExecutor.Open(henry,door);
             Debug.Write(status.Message);
 
-            status=commandExecutor.GoThrough(door, henry);
+            status=commandExecutor.GoThrough(henry,door);
             Debug.Write(status.Message);
-
+            //TODO: yes, but the door goes back to outside the house
             Debug.Write(henry.GetCurrentLocation());
 
-            status = commandExecutor.Take(phone, henry);
+            status = commandExecutor.Take(henry, phone);
             Debug.Write(status.Message);
 
+            status = commandExecutor.GoUp(henry, stairs);
+            Debug.Write(status.Message);
 
+            status = commandExecutor.Open(henry,bedroomDoor);
+            Debug.Write(status.Message);
 
+            status = commandExecutor.GoThrough(henry, bedroomDoor);
 
-
-
+            status = commandExecutor.Examine(henry,wardrobe);
+            Debug.Write(status.Message);
 
         }
     }

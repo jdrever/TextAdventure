@@ -28,7 +28,7 @@ namespace TextAdventure.Application
 
             var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
-            return _commandActioner.Take(selectedObject, selectedCharacter);
+            return _commandActioner.Take(selectedCharacter,selectedObject);
         }
 
         public CommandOperationStatus Drop(string objectName, Guid characterID)
@@ -39,7 +39,7 @@ namespace TextAdventure.Application
 
             var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
 
-            return _commandActioner.Drop(selectedObject, selectedCharacter, location);
+            return _commandActioner.Drop(selectedCharacter,selectedObject, location);
         }
     }
 }

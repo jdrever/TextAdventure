@@ -77,9 +77,32 @@ namespace TextAdventure.Domain
             AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, relationshipTo);
         }
 
+
+
+
         public GameBaseObject LeadsTo()
         {
             return Relationships.Where(p => p.RelationshipType == RelationshipType.LeadsTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
+        }
+
+        public void GoesUpTo(GameBaseObject relationshipTo)
+        {
+            AddRelationship(RelationshipType.GoesUpTo, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public GameBaseObject GoesUpTo()
+        {
+            return Relationships.Where(p => p.RelationshipType == RelationshipType.GoesUpTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
+        }
+
+        public void GoesDownTo(GameBaseObject relationshipTo)
+        {
+            AddRelationship(RelationshipType.GoesDownTo, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public GameBaseObject GoesDownTo()
+        {
+            return Relationships.Where(p => p.RelationshipType == RelationshipType.GoesDownTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
         }
 
         public void RemoveRelationship(GameObjectRelationship relationship)
@@ -267,6 +290,8 @@ namespace TextAdventure.Domain
         LeadsTo = 1,
         IsHeldBy = 2,
         IsUnder = 3,
+        GoesDownTo =4,
+        GoesUpTo=5
         
     }
 
