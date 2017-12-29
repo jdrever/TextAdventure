@@ -45,7 +45,7 @@ namespace TextAdventure.Domain.UnitTest
             var wardrobe = new GameObject("Wardrobe") { IsOpenable = true,IsOpen=true };
             bedroom.Contains(wardrobe);
 
-            var trousers = new GameObject("Trousers") { Description = "Faded blue jeans" };
+            var trousers = new GameObject("Trousers") { Description = "Faded blue jeans", IsWearable=true };
             wardrobe.Contains(trousers);
 
             var henry = new GameCharacter("Henry");
@@ -80,10 +80,14 @@ namespace TextAdventure.Domain.UnitTest
 
             status = commandExecutor.GoThrough(henry, bedroomDoor);
 
-
-
             status = commandExecutor.Examine(henry,wardrobe);
             Debug.Write(status.Message);
+
+            status = commandExecutor.Wear(henry, trousers);
+            Debug.Write(status.Message);
+
+            Debug.Write(henry);
+
 
         }
     }

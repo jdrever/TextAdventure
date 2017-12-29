@@ -157,5 +157,22 @@ namespace TextAdventure.Application
             status.Message = gameCharacter.Name + "  examines the " + gameObject.Name + ". " + gameObject.ToString();
             return status;
         }
+        public CommandOperationStatus Wear(GameCharacter gameCharacter, GameObject gameObject)
+        {
+            var status = new CommandOperationStatus();
+
+            if (!gameObject.IsWearable)
+            {
+                status.Message = "You can't wear the " + gameObject.Name + ".";
+                status.Status = false;
+                return status;
+            }
+
+            gameObject.RemoveRelationship(RelationshipType.Contains, RelationshipDirection.ChildToParent, gameObject.GetContainingParent());
+            gameCharacter.Wears(gameObject);
+            status.Message = gameCharacter.Name + "  wears the " + gameObject.Name + ". " + gameObject.ToString();
+
+            return status;
+        }
     }
 }

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace TextAdventure.Domain
 {
     [JsonObject(IsReference = false)]
-    public class GameBaseObject 
+    public class GameBaseObject
     {
         public Guid ID;
 
@@ -18,10 +18,10 @@ namespace TextAdventure.Domain
 
         public override string ToString()
         {
-            string text = Name+". ";
+            string text = Name + ". ";
             if (!String.IsNullOrWhiteSpace(Description))
             {
-                text +=Description + ". ";
+                text += Description + ". ";
             }
             var containedObjects =
                 Relationships.Where(p => p.RelationshipType == RelationshipType.Contains && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo);
@@ -41,10 +41,16 @@ namespace TextAdventure.Domain
 
         public IList<GameObjectRelationship> Relationships { get; set; }
 
+        public GameBaseObject GetContainingParent()
+        {
+            return Relationships.Single(r=>r.RelationshipType == RelationshipType.Contains && r.RelationshipDirection == RelationshipDirection.ChildToParent).RelationshipTo;
+
+        }
+
         public void AddRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
         {
             // if null instanciate Relationships
-            if (Relationships==null)
+            if (Relationships == null)
                 Relationships = new List<GameObjectRelationship>();
 
             // if relationshipTo's Relationships is null instanciate Relationships
@@ -62,7 +68,7 @@ namespace TextAdventure.Domain
 
         }
 
-        public void AddRelationship(RelationshipType relationshipType,  GameBaseObject relationshipTo)
+        public void AddRelationship(RelationshipType relationshipType, GameBaseObject relationshipTo)
         {
             AddRelationship(relationshipType, RelationshipDirection.ParentToChild, relationshipTo);
         }
@@ -100,6 +106,16 @@ namespace TextAdventure.Domain
         public GameBaseObject GoesDownTo()
         {
             return Relationships.Where(p => p.RelationshipType == RelationshipType.GoesDownTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
+        }
+
+        public void Wears(GameBaseObject relationshipTo)
+        {
+            AddRelationship(RelationshipType.Wears, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public GameBaseObject Wears()
+        {
+            return Relationships.Where(p => p.RelationshipType == RelationshipType.Wears && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
         }
 
         /**public void RemoveRelationship_(GameObjectRelationship relationship)
@@ -141,7 +157,7 @@ namespace TextAdventure.Domain
             // remove other type of relationship
             if (relationshipDirection == RelationshipDirection.ParentToChild)
             {
-                var existingOtherRelationship = relationshipTo.Relationships.Single(r => r.RelationshipTo.ID == this.ID && r.RelationshipDirection==RelationshipDirection.ChildToParent && r.RelationshipType == relationshipType);
+                var existingOtherRelationship = relationshipTo.Relationships.Single(r => r.RelationshipTo.ID == this.ID && r.RelationshipDirection == RelationshipDirection.ChildToParent && r.RelationshipType == relationshipType);
                 relationshipTo.Relationships.Remove(existingOtherRelationship);
             }
 
@@ -149,7 +165,7 @@ namespace TextAdventure.Domain
             {
                 var existingOtherRelationship = relationshipTo.Relationships.Single(r => r.RelationshipTo.ID == this.ID && r.RelationshipDirection == RelationshipDirection.ParentToChild && r.RelationshipType == relationshipType);
                 relationshipTo.Relationships.Remove(existingOtherRelationship);
-            }            
+            }
         }
 
         public bool HasDirectRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)
@@ -192,7 +208,7 @@ namespace TextAdventure.Domain
             }
         }
     }
-    
+
     public class GameContainer : GameBaseObject
     {
         public GameContainer(string name)
@@ -232,26 +248,11 @@ namespace TextAdventure.Domain
 
         public bool IsOpen { get; set; }
 
+        public bool IsWearable { get; set; }
+
     }
 
-    public class GameCharacter : GameBaseObject
-    {
-        public GameCharacter(string name)
-        {
-            Name = name;
-        }
-	
-        public string Gender { get; set; }
 
-        public string FirstName => Name.Split(' ')[0];
-
-        public string Surname => string.Format(Name.Replace(FirstName + " ", string.Empty));
-
-        public GameBaseObject GetCurrentLocation()
-        {
-            return Relationships.Where(p => p.RelationshipType == RelationshipType.Contains && p.RelationshipDirection == RelationshipDirection.ChildToParent).Select(a => a.RelationshipTo).First();
-        }
-    }
 
     public class GameCurrencyObject : GameObject
     {
@@ -265,45 +266,13 @@ namespace TextAdventure.Domain
     }
 
     public class Phone : GameObject
-    {   
+    {
         public Phone(string name, string phoneNumber)
         {
             Name = name;
             PhoneNumber = phoneNumber;
         }
-        public string PhoneNumber { get; set;  }
-    }
-
-    [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
-    public class GameObjectRelationship
-    {
-        public GameObjectRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
-        {
-            RelationshipType = relationshipType;
-            RelationshipDirection = relationshipDirection;
-            RelationshipTo = relationshipTo;
-        }
-
-        public RelationshipType RelationshipType { get; set; }
-        public RelationshipDirection RelationshipDirection { get; set; }
-        public GameBaseObject RelationshipTo { get; set; } 
-    }
-
-
-    public enum RelationshipType
-    {
-        Contains = 0,
-        LeadsTo = 1,
-        IsHeldBy = 2,
-        IsUnder = 3,
-        GoesDownTo =4,
-        GoesUpTo=5
-        
-    }
-
-    public enum RelationshipDirection
-    {
-        ParentToChild = 0,
-        ChildToParent = 1
+        public string PhoneNumber { get; set; }
     }
 }
+    
