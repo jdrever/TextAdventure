@@ -73,16 +73,39 @@ namespace TextAdventure.Domain
             AddRelationship(relationshipType, RelationshipDirection.ParentToChild, relationshipTo);
         }
 
+        public IList<GameBaseObject> GetParentChildRelationshipObjects(RelationshipType relationshipType)
+        {
+            if (Relationships == null) { return null; }
+                
+            var containingRelationships = Relationships.Where(p => p.RelationshipType == relationshipType && p.RelationshipDirection == RelationshipDirection.ParentToChild);
+            if (containingRelationships.Count() > 0)
+                return containingRelationships.Select(a => a.RelationshipTo).ToList();
+            else
+                return null;
+        }
+
         public void Contains(GameBaseObject relationshipTo)
         {
             AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, relationshipTo);
+        }
+
+        public IList<GameBaseObject> Contains()
+        {
+            return GetParentChildRelationshipObjects(RelationshipType.Contains);
+        }
+
+        public IList<GameBaseObject> Holds()
+        {
+            return GetParentChildRelationshipObjects(RelationshipType.IsHeldBy);
         }
 
         public void LeadsTo(GameBaseObject relationshipTo)
         {
             AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, relationshipTo);
         }
-
+        //TODO: may need to revsit the LeadsTo etc methods returning a single GameBaseObject?
+        //they may throw a null exception
+        //and will they always return a single record?
         public GameBaseObject LeadsTo()
         {
             return Relationships.Where(p => p.RelationshipType == RelationshipType.LeadsTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
@@ -249,6 +272,7 @@ namespace TextAdventure.Domain
         public bool IsOpen { get; set; }
 
         public bool IsWearable { get; set; }
+        public bool CanHold { get; set; }
 
     }
 

@@ -11,7 +11,7 @@ namespace TextAdventure.Domain
 
         public override string ToString()
         {
-            string toString= base.ToString();
+            string toString = base.ToString();
             toString += Name + " is wearing: " + Wears();
             return toString;
         }
@@ -26,5 +26,9 @@ namespace TextAdventure.Domain
         {
             return Relationships.Where(p => p.RelationshipType == RelationshipType.Contains && p.RelationshipDirection == RelationshipDirection.ChildToParent).Select(a => a.RelationshipTo).First();
         }
+
+        public GameBaseObject DefaultHandlingObject { get; set; }
     }
+
+
 }

@@ -26,6 +26,9 @@ namespace TextAdventure.Domain.UnitTest
             var phone = new Phone("Phone", "01743360772") { Description="Old"};
             hallway.Contains(phone);
 
+            var router = new GameObject("Router");
+            hallway.Contains(router);
+
             door.AddRelationship(RelationshipType.LeadsTo, hallway);
             var stairs = new GameObject("Stairs") { IsClimbable = true,Description="Sad looking carpet" };
             hallway.Contains(stairs);
@@ -46,9 +49,35 @@ namespace TextAdventure.Domain.UnitTest
             bedroom.Contains(wardrobe);
 
             var trousers = new GameObject("Trousers") { Description = "Faded blue jeans", IsWearable=true };
-            wardrobe.Contains(trousers);
 
+            var leftHandPocket = new GameObject("Left hand pocket");
+            var rightHandPocket = new GameObject("Right hand pocket");
+            var carKey = new GameObject("Car Key");
+            var doorKey = new GameObject("Door Key");
+
+            wardrobe.Contains(trousers);
+            trousers.Contains(leftHandPocket);
+            trousers.Contains(rightHandPocket);
+            rightHandPocket.Contains(doorKey);
+            leftHandPocket.Contains(carKey);
+
+            
             var henry = new GameCharacter("Henry");
+
+            var leftEye = new GameObject("Left Eye");
+            var rightEye = new GameObject("Right Eye");
+
+            leftEye.Description = "Blue";
+            rightEye.Description = "Blue";
+
+            henry.Contains(leftEye);
+            henry.Contains(rightEye);
+
+            var leftHand = new GameObject("Left Hand") { CanHold = true };
+            var rightHand = new GameObject("Right Hand") { CanHold = true };
+
+            henry.DefaultHandlingObject = rightHand;
+
             ourRoad.Contains(henry);
 
             Debug.Write(henry.GetCurrentLocation());
@@ -66,6 +95,9 @@ namespace TextAdventure.Domain.UnitTest
             Debug.Write(henry.GetCurrentLocation());
 
             status = commandExecutor.Take(henry, phone);
+            Debug.Write(status.Message);
+
+            status = commandExecutor.Take(henry, router);
             Debug.Write(status.Message);
 
             status = commandExecutor.GoUp(henry, stairs);

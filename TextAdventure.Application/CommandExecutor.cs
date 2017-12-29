@@ -22,7 +22,17 @@ namespace TextAdventure.Application
                 }
 
                 //RemoveDirectPossessionRelationships(gameObject);
-                gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
+                var objectsHeldbyDefaultHandlingObject =gameCharacter.DefaultHandlingObject.Holds();
+                if (objectsHeldbyDefaultHandlingObject != null)
+                {
+                    // need to check for other contained objects that can hold first
+                    // before returing an error
+                    status.Message = gameCharacter.Name + " is already carrying the "+ objectsHeldbyDefaultHandlingObject.First().Name+" with their " + gameCharacter.DefaultHandlingObject.Name;
+                    status.Status = false;
+                    return status;
+                }
+                //
+                gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter.DefaultHandlingObject);
 
                 status.Message = gameCharacter.Name + " takes the " + gameObject.Name;
                 status.Status = true;
