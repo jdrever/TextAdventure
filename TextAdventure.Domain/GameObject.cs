@@ -77,9 +77,6 @@ namespace TextAdventure.Domain
             AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, relationshipTo);
         }
 
-
-
-
         public GameBaseObject LeadsTo()
         {
             return Relationships.Where(p => p.RelationshipType == RelationshipType.LeadsTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
@@ -105,7 +102,7 @@ namespace TextAdventure.Domain
             return Relationships.Where(p => p.RelationshipType == RelationshipType.GoesDownTo && p.RelationshipDirection == RelationshipDirection.ParentToChild).Select(a => a.RelationshipTo).First();
         }
 
-        public void RemoveRelationship(GameObjectRelationship relationship)
+        /**public void RemoveRelationship_(GameObjectRelationship relationship)
         {
             // if null instanciate Relationships
             if (Relationships == null)
@@ -124,6 +121,7 @@ namespace TextAdventure.Domain
             else if (relationship.RelationshipDirection == RelationshipDirection.ChildToParent)
                 relationship.RelationshipTo.Relationships.Remove(new GameObjectRelationship(relationship.RelationshipType, RelationshipDirection.ParentToChild, this));
         }
+        **/
 
         public void RemoveRelationship(RelationshipType relationshipType, RelationshipDirection relationshipDirection, GameBaseObject relationshipTo)
         {
@@ -136,14 +134,22 @@ namespace TextAdventure.Domain
                 relationshipTo.Relationships = new List<GameObjectRelationship>();
 
             // remove new relationship
-            Relationships.Remove(new GameObjectRelationship(relationshipType, relationshipDirection, relationshipTo));
+            var existingRelationship = Relationships.Single(r => r.RelationshipTo == relationshipTo && r.RelationshipType == relationshipType && r.RelationshipDirection == relationshipDirection);
+            Relationships.Remove(existingRelationship);
+
 
             // remove other type of relationship
             if (relationshipDirection == RelationshipDirection.ParentToChild)
-                relationshipTo.Relationships.Remove(new GameObjectRelationship(relationshipType, RelationshipDirection.ChildToParent, this));
-            else if (relationshipDirection == RelationshipDirection.ChildToParent)
-                relationshipTo.Relationships.Remove(new GameObjectRelationship(relationshipType, RelationshipDirection.ParentToChild, this));
+            {
+                var existingOtherRelationship = relationshipTo.Relationships.Single(r => r.RelationshipTo.ID == this.ID && r.RelationshipDirection==RelationshipDirection.ChildToParent && r.RelationshipType == relationshipType);
+                relationshipTo.Relationships.Remove(existingOtherRelationship);
+            }
 
+            else if (relationshipDirection == RelationshipDirection.ChildToParent)
+            {
+                var existingOtherRelationship = relationshipTo.Relationships.Single(r => r.RelationshipTo.ID == this.ID && r.RelationshipDirection == RelationshipDirection.ParentToChild && r.RelationshipType == relationshipType);
+                relationshipTo.Relationships.Remove(existingOtherRelationship);
+            }            
         }
 
         public bool HasDirectRelationshipWith(GameBaseObject baseObject, RelationshipType type, RelationshipDirection direction)

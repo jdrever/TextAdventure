@@ -38,7 +38,9 @@ namespace TextAdventure.Domain.UnitTest
             var bedroomDoor = new GameObject("Bedroom door") { IsOpenable = true, IsOpen = false };
             var bedroom = new GameObject("Bedroom");
             bedroomDoor.LeadsTo(bedroom);
+            bedroomDoor.LeadsTo(landing);
             landing.Contains(bedroomDoor);
+
 
             var wardrobe = new GameObject("Wardrobe") { IsOpenable = true,IsOpen=true };
             bedroom.Contains(wardrobe);
@@ -69,10 +71,16 @@ namespace TextAdventure.Domain.UnitTest
             status = commandExecutor.GoUp(henry, stairs);
             Debug.Write(status.Message);
 
+            Debug.Write(henry.GetCurrentLocation());
+
             status = commandExecutor.Open(henry,bedroomDoor);
             Debug.Write(status.Message);
 
+            Debug.Write(henry.GetCurrentLocation());
+
             status = commandExecutor.GoThrough(henry, bedroomDoor);
+
+
 
             status = commandExecutor.Examine(henry,wardrobe);
             Debug.Write(status.Message);

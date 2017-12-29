@@ -21,7 +21,7 @@ namespace TextAdventure.Application
                     return status;
                 }
 
-                RemoveDirectPossessionRelationships(gameObject);
+                //RemoveDirectPossessionRelationships(gameObject);
                 gameObject.AddRelationship(RelationshipType.IsHeldBy, RelationshipDirection.ChildToParent, gameCharacter);
 
                 status.Message = gameCharacter.Name + " takes the " + gameObject.Name;
@@ -42,7 +42,7 @@ namespace TextAdventure.Application
 
             try
             {
-                RemoveDirectPossessionRelationships(gameObject);
+                //RemoveDirectPossessionRelationships(gameObject);
 
                 if (!gameCharacter.HasIndirectRelationshipWith(gameObject, RelationshipType.IsHeldBy, RelationshipDirection.ParentToChild))
                 {
@@ -65,7 +65,7 @@ namespace TextAdventure.Application
             return status;
         }
 
-        private void RemoveDirectPossessionRelationships(GameBaseObject gameobject)
+        /**private void _RemoveDirectPossessionRelationships(GameBaseObject gameobject)
         {
             var directPossessionRelationships = gameobject.Relationships.Where(relationship => relationship.RelationshipDirection == RelationshipDirection.ChildToParent && (relationship.RelationshipType == RelationshipType.Contains || relationship.RelationshipType == RelationshipType.IsUnder || relationship.RelationshipType == RelationshipType.LeadsTo || relationship.RelationshipType == RelationshipType.IsHeldBy)).ToList();
 
@@ -74,6 +74,7 @@ namespace TextAdventure.Application
                 gameobject.RemoveRelationship(relationship);
             }
         }
+        **/
 
         public CommandOperationStatus Open(GameCharacter gameCharacter,GameObject gameObject)
         {
