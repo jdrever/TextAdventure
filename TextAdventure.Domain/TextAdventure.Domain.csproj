@@ -43,9 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameCharacter.cs" />
+    <Compile Include="GameBaseObject.cs" />
+    <Compile Include="GameCurrencyObject.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectRelationship.cs" />
+    <Compile Include="GameWorld.cs" />
     <Compile Include="OperationStatus.cs" />
+    <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

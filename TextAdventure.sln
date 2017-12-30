@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Umbraco", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Domain.UnitTests", "TextAdventure.Domain.UnitTest\TextAdventure.Domain.UnitTests.csproj", "{400A469E-3A14-4C36-B4A9-BD51755317CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Console", "TextAdventure.Console\TextAdventure.Console.csproj", "{85D4DCE9-297A-4CC2-89B1-3CF2A32E9E7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure.Infrastructure.UnitTests", "TextAdventure.Infrastructure.UnitTests\TextAdventure.Infrastructure.UnitTests.csproj", "{29DF3331-104C-40B4-B07E-71F4BCF0291F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +68,14 @@ Global
 		{400A469E-3A14-4C36-B4A9-BD51755317CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{400A469E-3A14-4C36-B4A9-BD51755317CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{400A469E-3A14-4C36-B4A9-BD51755317CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85D4DCE9-297A-4CC2-89B1-3CF2A32E9E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85D4DCE9-297A-4CC2-89B1-3CF2A32E9E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85D4DCE9-297A-4CC2-89B1-3CF2A32E9E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85D4DCE9-297A-4CC2-89B1-3CF2A32E9E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29DF3331-104C-40B4-B07E-71F4BCF0291F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29DF3331-104C-40B4-B07E-71F4BCF0291F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29DF3331-104C-40B4-B07E-71F4BCF0291F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29DF3331-104C-40B4-B07E-71F4BCF0291F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

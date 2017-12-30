@@ -18,7 +18,7 @@ namespace TextAdventure.Application
             _textSimplifier = textSimplifier;
         }
 
-        public string ParseInput(Guid characterID, string input)
+        public string ParseInput(CharacterLocationDetails details, string input)
         {
             var sentences = _textSimplifier.SimplifyText(input);
             foreach (string sentence in sentences)
@@ -31,9 +31,9 @@ namespace TextAdventure.Application
                 switch (firstWord)
                 {
                     case "TAKE":
-                        return _actionCoordinator.Take(furtherWords, characterID).Message;
+                        return _actionCoordinator.Take(furtherWords, details).Message;
                     case "DROP":
-                        return _actionCoordinator.Drop(furtherWords, characterID).Message;
+                        return _actionCoordinator.Drop(furtherWords, details).Message;
                 }
                 return "I didn't understand!";
             }

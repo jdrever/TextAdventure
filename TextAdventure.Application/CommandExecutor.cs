@@ -46,7 +46,7 @@ namespace TextAdventure.Application
             return status;
         }
 
-        public CommandOperationStatus Drop(GameCharacter gameCharacter, GameObject gameObject, GameLocation location)
+        public CommandOperationStatus Drop(GameCharacter gameCharacter, GameObject gameObject)
         {
             var status = new CommandOperationStatus();
 
@@ -61,7 +61,7 @@ namespace TextAdventure.Application
                     return status;
                 }
 
-                location.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, gameObject);
+                gameCharacter.GetCurrentLocation().AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, gameObject);
 
                 status.Message = gameCharacter.Name + " dropped " + gameObject.Name;
                 status.Status = true;

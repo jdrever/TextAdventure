@@ -14,11 +14,12 @@ namespace TextAdventure.Domain
 
     public class CommandOperationStatus : OperationStatus
     {
-
+        public CharacterLocationDetails details { get; set; }
     }
-
-    public class LocationOperationStatus : OperationStatus
+    public class CharacterLocationDetails
     {
-        public GameLocation location { get; set; }
+        public Guid gameCharacterId { get; set; }
+        public Guid gameObjectId { get; set; }
     }
+
 }

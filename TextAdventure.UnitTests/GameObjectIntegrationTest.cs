@@ -21,11 +21,11 @@ namespace TextAdventure.UnitTests
             // create dir if it doesn't already exist, for testing with json
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.textadventure\Logs\");
 
-            var entireWorld = new GameContainer("Entire World");
+            var entireWorld = new GameWorld("Entire World");
          
 
 
-            var bedroom = new GameLocation("Bedroom");
+            var bedroom = new GameObject("Bedroom");
             bedroom.Description = "An untidy bedroom";
             entireWorld.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroom);
 
@@ -47,17 +47,17 @@ namespace TextAdventure.UnitTests
             var bedroomDoor=new GameObject("Bedroom Door");
             bedroom.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, bedroomDoor);
 
-            var landing = new GameLocation("The landing");
+            var landing = new GameObject("The landing");
             landing.Description = "Area of carpeted land outside bedroom door";
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, landing);
 
-            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), new ObjectRepository()),new TextSimplifier());
+            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), new MockedObjectRepository(entireWorld)),new TextSimplifier());
 
-            var lo = new LocationRepository();
+            var details = new CharacterLocationDetails();
+            details.gameCharacterId = mainCharacter.ID;
+            details.gameObjectId = mainCharacter.GetCurrentLocation().ID;
 
-            lo.SaveCurrentLocation(mainCharacter, bedroom);
-
-            var takestatus = parser.ParseInput(mainCharacter.ID, "take Wallet");
+            var takestatus = parser.ParseInput(details, "take Wallet");
             Assert.AreEqual(takestatus, "Alfie Drever took Wallet");
 
         }

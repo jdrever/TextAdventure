@@ -1,11 +1,14 @@
 ﻿
+using System;
 using TextAdventure.Domain;
 
 namespace TextAdventure.Interface
 {
     public interface ILocationRepository
     {
-        GameLocation GetLocation(string locationId);
-        void SaveLocation(GameLocation location);
+
+        GameObject GetGameObject(Guid id);
+        void SaveGameObject(GameObject gameObject);
+        //        GameObject GetContainingObjectForCharacter(Guid characterId);
     }
 }

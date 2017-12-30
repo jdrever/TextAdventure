@@ -11,7 +11,7 @@ namespace TextAdventure.Domain.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            GameContainer container = new GameContainer("Copthorne");
+            GameWorld container = new GameWorld("Copthorne");
             GameObject ourRoad = new GameObject("Oakfield Road");
             GameObject ourHouse = new GameObject("83 Oakfield Road") { Description = "1930s semi-detached" };
             container.Contains(ourRoad);

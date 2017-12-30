@@ -11,35 +11,37 @@ namespace TextAdventure.Application
         private readonly IObjectRepository _objectRepository;
 
 
-        
+
         public CommandCoordinator(ICommandExecutor commandActioner, IObjectRepository objectRepository)
         {
             if (commandActioner == null) throw new ArgumentNullException("commandActioner");
             if (objectRepository == null) throw new ArgumentNullException("objectRepository");
+
             _commandActioner = commandActioner;
             _objectRepository = objectRepository;
         }
         
-        public CommandOperationStatus Take(string objectName, Guid characterID)
+        public CommandOperationStatus Take(string objectName, CharacterLocationDetails details)
         {
-            var location = new LocationRepository().GetCharactersLocation(characterID);
 
-            var selectedCharacter = _objectRepository.GetObjectFromID<GameCharacter>(characterID, location);
+            var selectedCharacter = _objectRepository.GetGameObject<GameCharacter>(details.gameCharacterId, details);
 
-            var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
+            var location = selectedCharacter.GetCurrentLocation();
+
+            var selectedObject = _objectRepository.GetGameObject<GameObject>(objectName, details);
 
             return _commandActioner.Take(selectedCharacter,selectedObject);
         }
 
-        public CommandOperationStatus Drop(string objectName, Guid characterID)
+        public CommandOperationStatus Drop(string objectName, CharacterLocationDetails details)
         {
-            var location = new LocationRepository().GetCharactersLocation(characterID);
+            var selectedCharacter = _objectRepository.GetGameObject<GameCharacter>(details.gameCharacterId,details);
 
-            var selectedCharacter = _objectRepository.GetObjectFromID<GameCharacter>(characterID, location);
+            var location = selectedCharacter.GetCurrentLocation();
 
-            var selectedObject = _objectRepository.GetObjectFromName<GameObject>(objectName, location);
+            var selectedObject = _objectRepository.GetGameObject<GameObject>(objectName, details);
 
-            return _commandActioner.Drop(selectedCharacter,selectedObject, location);
+            return _commandActioner.Drop(selectedCharacter,selectedObject);
         }
     }
 }

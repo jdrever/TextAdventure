@@ -2,7 +2,7 @@
 
 namespace TextAdventure.Domain
 {
-    public class GameCharacter : GameBaseObject
+    public class GameCharacter : GameObject
     {
         public GameCharacter(string name)
         {

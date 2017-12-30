@@ -5,7 +5,7 @@ namespace TextAdventure.Interface
 {
     public interface ICommandCoordinator
     {
-        CommandOperationStatus Take(string objectName, Guid characterID);
-        CommandOperationStatus Drop(string objectName, Guid characterID);
+        CommandOperationStatus Take(string objectName, CharacterLocationDetails details);
+        CommandOperationStatus Drop(string objectName, CharacterLocationDetails details);
     }
 }
