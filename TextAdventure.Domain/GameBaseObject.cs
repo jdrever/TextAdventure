@@ -13,6 +13,7 @@ namespace TextAdventure.Domain
         public GameBaseObject()
         {
             ID = Guid.NewGuid();
+            Relationships = new List<GameObjectRelationship>();
         }
 
 

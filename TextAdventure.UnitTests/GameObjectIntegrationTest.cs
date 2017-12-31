@@ -51,7 +51,7 @@ namespace TextAdventure.UnitTests
             landing.Description = "Area of carpeted land outside bedroom door";
             bedroomDoor.AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, landing);
 
-            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), new MockedObjectRepository(entireWorld)),new TextSimplifier());
+            var parser = new Parser(new CommandCoordinator(new CommandExecutor(), new ObjectRepository(entireWorld)),new TextSimplifier());
 
             var details = new CharacterLocationDetails();
             details.gameCharacterId = mainCharacter.ID;

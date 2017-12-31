@@ -9,60 +9,71 @@ using TextAdventure.Interface;
 
 namespace TextAdventure.Infrastructure
 {
-    public class MockedObjectRepository : IObjectRepository
+    public class ObjectRepository : IObjectRepository
     {
         private GameWorld _world;
-        public MockedObjectRepository(GameWorld world)
+
+        public ObjectRepository()
+        { }
+
+        public ObjectRepository(GameWorld world)
         {
             _world = world;
         }
-        public T GetGameObject<T>(string objectName, CharacterLocationDetails details) where T:GameBaseObject
+        public GameBaseObject GetGameObject(string objectName, CharacterLocationDetails details)
         {
-            if (_world.Relationships == null)
-                _world.Relationships = new List<GameObjectRelationship>();
-
-            // get child objects
-            var childObjects = GetChildObjects(_world);
-            // check if they are the searched for node
-            foreach (var gameObject in childObjects)
+            if (_world!=null)
             {
-                if (CheckObjectName(objectName, gameObject))
-                    return gameObject as T;
-                if (CheckObjectName(objectName, GetGameObject<T>(objectName, details)))
-                {
-                    return GetGameObject<T>(objectName, details);
-                }
+                return SearchGameObjects(_world, objectName);
             }
+            var location = GetGameObjectFromJSON(details.gameObjectId);
+            return SearchGameObjects(location,objectName);
+        }
 
-            // when there are no more child objects, return null - the desired object obviously doesn't 
-            // exist
+        private GameBaseObject SearchGameObjects(GameBaseObject gameObject,string objectName)
+        {
+            if (CheckObjectName(objectName, gameObject))
+                return gameObject;
+            var childGameObjects = GetChildObjects(gameObject);
+            foreach (var childGameObject in childGameObjects)
+            {
+                if (CheckObjectName(objectName, childGameObject))
+                    return childGameObject;
+                else
+                    return SearchGameObjects(childGameObject, objectName);
+            }
             return null;
         }
 
-        public T GetGameObject<T>(Guid ID, CharacterLocationDetails details) where T:GameBaseObject
+        public GameBaseObject GetGameObject(Guid id, CharacterLocationDetails details)
         {
-            if (_world.Relationships == null)
-                _world.Relationships = new List<GameObjectRelationship>();
-
-            // get child nodes
-            var childObjects = GetChildObjects(_world);
-
-            // check if they are the searched for node
-            foreach (var gameObject in childObjects)
+            if (_world != null)
             {
-                if (CheckObjectID(ID, gameObject))
-                    return (T) gameObject;
-                
-                return GetGameObject<T>(ID, details);
+                return SearchGameObjects(_world, id);
             }
+            var location = GetGameObjectFromJSON(details.gameObjectId);
+            return SearchGameObjects(location, id);
+        }
 
-            // when there are no more child objects, return null - the desired object obviously doesn't 
-            // exist
+        private GameBaseObject SearchGameObjects(GameBaseObject gameObject, Guid id)
+        {
+            if (id==gameObject.ID)
+                return gameObject;
+            var childGameObjects = GetChildObjects(gameObject);
+            foreach (var childGameObject in childGameObjects)
+            {
+                if (id== childGameObject.ID)
+                    return childGameObject;
+                else
+                    return SearchGameObjects(childGameObject, id);
+            }
             return null;
         }
+
 
         public static List<GameBaseObject> GetChildObjects(GameBaseObject baseObject)
         {
+            //TODO: check the list of "child" relationship types - are all relationship types effectively child types? 
             return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild && (objectRelationship.RelationshipType == RelationshipType.Contains || objectRelationship.RelationshipType == RelationshipType.IsHeldBy || objectRelationship.RelationshipType == RelationshipType.IsUnder) select objectRelationship.RelationshipTo).ToList();
         }
 
@@ -76,9 +87,8 @@ namespace TextAdventure.Infrastructure
             return baseObject.ID == ID;
         }
 
-        public GameObject GetGameObject(Guid id)
+        private GameObject GetGameObjectFromJSON(Guid id)
         {
-
             //TODO: put the file in a project directory
             var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var json = System.IO.File.ReadAllText($@"{appdata}\.textadventure\Logs\{id}.txt");

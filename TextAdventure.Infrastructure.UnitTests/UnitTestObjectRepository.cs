@@ -7,15 +7,20 @@ namespace TextAdventure.Infrastructure.UnitTests
     [TestClass]
     public class UnitTestObjectRepository
     {
-        [TestMethod]
-        public void TestSearchForObjectByName()
+        private GameWorld world = new GameWorld("Copthorne");
+        private CharacterLocationDetails details;
+        private ObjectRepository objectRepository;
+        private GameObject door;
+
+        [TestInitialize]
+        public void Initialise()
         {
-            GameWorld world = new GameWorld("Copthorne");
+
             GameObject ourRoad = new GameObject("Oakfield Road");
             GameObject ourHouse = new GameObject("83 Oakfield Road") { Description = "1930s semi-detached" };
             world.Contains(ourRoad);
             ourRoad.Contains(ourHouse);
-            GameObject door = new GameObject("White door")
+            door = new GameObject("White door")
             {
                 IsOpenable = true,
                 IsOpen = false
@@ -24,13 +29,16 @@ namespace TextAdventure.Infrastructure.UnitTests
             GameObject hallway = new GameObject("Hallway");
 
             var henry = new GameCharacter("Henry");
-            hallway.Contains(hallway);
+            hallway.Contains(henry);
 
-            var objectRepository = new MockedObjectRepository(world);
-            CharacterLocationDetails details = new CharacterLocationDetails() { gameCharacterId = henry.ID, gameObjectId = henry.GetCurrentLocation().ID };
+            objectRepository = new ObjectRepository(world);
+            details = new CharacterLocationDetails() { gameCharacterId = henry.ID, gameObjectId = henry.GetCurrentLocation().ID };
+        }
 
-
-            var searchforDoor=objectRepository.GetGameObject<GameBaseObject>("White door", details);
+        [TestMethod]
+        public void TestSearchForObjectByName()
+        {
+            var searchforDoor=objectRepository.GetGameObject("White door", details);
             Assert.AreEqual(searchforDoor.Name, door.Name);
             Assert.AreEqual(searchforDoor, door);
 

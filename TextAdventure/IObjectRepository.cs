@@ -5,8 +5,8 @@ namespace TextAdventure.Interface
 {
     public interface IObjectRepository
     {
-        T GetGameObject<T>(string objectName, CharacterLocationDetails details) where T : GameBaseObject;
-        T GetGameObject<T>(Guid ID, CharacterLocationDetails details) where T : GameBaseObject;
+        GameBaseObject GetGameObject(string objectName, CharacterLocationDetails details);
+        GameBaseObject GetGameObject(Guid ID, CharacterLocationDetails details);
 
         void SaveGameObject(GameObject gameObject);
     }
