@@ -168,7 +168,9 @@ namespace TextAdventure.Application
         public CommandOperationStatus Examine(GameCharacter gameCharacter, GameObject gameObject)
         {
             var status = new CommandOperationStatus();
+            //TODO: needs to check the object is visible and within the current location
             status.Message = gameCharacter.Name + "  examines the " + gameObject.Name + ". " + gameObject.ToString();
+            status.Status = true;
             return status;
         }
         public CommandOperationStatus Wear(GameCharacter gameCharacter, GameObject gameObject)

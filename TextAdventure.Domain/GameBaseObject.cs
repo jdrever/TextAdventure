@@ -100,6 +100,12 @@ namespace TextAdventure.Domain
             return GetParentChildRelationshipObjects(RelationshipType.IsHeldBy);
         }
 
+        public bool IsHeld()
+        {
+            return Relationships.Any(r => r.RelationshipType==RelationshipType.IsHeldBy&&r.RelationshipDirection==RelationshipDirection.ChildToParent);
+        }
+
+
         public void LeadsTo(GameBaseObject relationshipTo)
         {
             AddRelationship(RelationshipType.LeadsTo, RelationshipDirection.ParentToChild, relationshipTo);

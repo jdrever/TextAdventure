@@ -103,7 +103,7 @@ namespace TextAdventure.Infrastructure
         private static bool CheckObjectName(string objectName, GameBaseObject baseObject)
         {
             //TODO: how do we handle making sure case is ignored.
-            return baseObject != null && baseObject.Name.ToUpper() == objectName;
+            return baseObject != null && baseObject.Name.ToUpper() == objectName.ToUpper();
         }
 
         private static bool CheckObjectID(Guid ID, GameBaseObject baseObject)
