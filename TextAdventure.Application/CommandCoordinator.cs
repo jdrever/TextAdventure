@@ -24,22 +24,22 @@ namespace TextAdventure.Application
         public CommandOperationStatus Take(string objectName, CharacterLocationDetails details)
         {
 
-            var selectedCharacter = _objectRepository.GetGameObject<GameCharacter>(details.gameCharacterId, details);
+            var selectedCharacter = (GameCharacter)_objectRepository.GetGameObject(details.gameCharacterId, details);
 
             var location = selectedCharacter.GetCurrentLocation();
 
-            var selectedObject = _objectRepository.GetGameObject<GameObject>(objectName, details);
+            var selectedObject = (GameObject)_objectRepository.GetGameObject(objectName, details);
 
             return _commandActioner.Take(selectedCharacter,selectedObject);
         }
 
         public CommandOperationStatus Drop(string objectName, CharacterLocationDetails details)
         {
-            var selectedCharacter = _objectRepository.GetGameObject<GameCharacter>(details.gameCharacterId,details);
+            var selectedCharacter = (GameCharacter)_objectRepository.GetGameObject(details.gameCharacterId,details);
 
             var location = selectedCharacter.GetCurrentLocation();
 
-            var selectedObject = _objectRepository.GetGameObject<GameObject>(objectName, details);
+            var selectedObject = (GameObject)_objectRepository.GetGameObject(objectName, details);
 
             return _commandActioner.Drop(selectedCharacter,selectedObject);
         }

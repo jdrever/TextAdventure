@@ -40,6 +40,16 @@ namespace TextAdventure.Infrastructure.UnitTests
         {
             var searchforDoor=objectRepository.GetGameObject("White door", details);
             Assert.AreEqual(searchforDoor.Name, door.Name);
+            Assert.AreEqual(searchforDoor.ID, door.ID);
+            Assert.AreEqual(searchforDoor, door);
+
+        }
+        [TestMethod]
+        public void TestSearchForObjectById()
+        {
+            var searchforDoor = objectRepository.GetGameObject(door.ID, details);
+            Assert.AreEqual(searchforDoor.Name, door.Name);
+            Assert.AreEqual(searchforDoor.ID, door.ID);
             Assert.AreEqual(searchforDoor, door);
 
         }

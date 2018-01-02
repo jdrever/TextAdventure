@@ -16,6 +16,7 @@ namespace TextAdventure.Infrastructure
         public ObjectRepository()
         { }
 
+
         public ObjectRepository(GameWorld world)
         {
             _world = world;
@@ -32,17 +33,40 @@ namespace TextAdventure.Infrastructure
 
         private GameBaseObject SearchGameObjects(GameBaseObject gameObject,string objectName)
         {
-            if (CheckObjectName(objectName, gameObject))
-                return gameObject;
-            var childGameObjects = GetChildObjects(gameObject);
-            foreach (var childGameObject in childGameObjects)
+            var queue = new Queue<GameBaseObject>();
+            queue.Enqueue(gameObject);
+
+            while (queue.Count > 0)
             {
-                if (CheckObjectName(objectName, childGameObject))
-                    return childGameObject;
-                else
-                    return SearchGameObjects(childGameObject, objectName);
+                // Take the next node from the front of the queue
+                var nextGameObject = queue.Dequeue();
+
+                // Process the node 'node'
+                if (CheckObjectName(objectName, nextGameObject))
+                    return nextGameObject;
+
+                // Add the node’s children to the back of the queue
+                var childGameObjects = GetChildObjects(nextGameObject);
+                foreach (var childGameObject in childGameObjects)
+                {
+                    queue.Enqueue(childGameObject);
+                }
             }
+
+            // None of the nodes matched the specified predicate.
             return null;
+
+            //if (CheckObjectName(objectName, gameObject))
+            //    return gameObject;
+            //var childGameObjects = GetChildObjects(gameObject);
+            //foreach (var childGameObject in childGameObjects)
+            //{
+            //    if (CheckObjectName(objectName, childGameObject))
+            //        return childGameObject;
+            //    else
+            //        return SearchGameObjects(childGameObject, objectName);
+            //}
+            //return null;
         }
 
         public GameBaseObject GetGameObject(Guid id, CharacterLocationDetails details)
@@ -73,13 +97,13 @@ namespace TextAdventure.Infrastructure
 
         public static List<GameBaseObject> GetChildObjects(GameBaseObject baseObject)
         {
-            //TODO: check the list of "child" relationship types - are all relationship types effectively child types? 
-            return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild && (objectRelationship.RelationshipType == RelationshipType.Contains || objectRelationship.RelationshipType == RelationshipType.IsHeldBy || objectRelationship.RelationshipType == RelationshipType.IsUnder) select objectRelationship.RelationshipTo).ToList();
+            return (from objectRelationship in baseObject.Relationships where objectRelationship.RelationshipDirection == RelationshipDirection.ParentToChild select objectRelationship.RelationshipTo).ToList();
         }
 
         private static bool CheckObjectName(string objectName, GameBaseObject baseObject)
         {
-            return baseObject != null && baseObject.Name == objectName;
+            //TODO: how do we handle making sure case is ignored.
+            return baseObject != null && baseObject.Name.ToUpper() == objectName;
         }
 
         private static bool CheckObjectID(Guid ID, GameBaseObject baseObject)

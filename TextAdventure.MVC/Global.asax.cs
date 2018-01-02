@@ -42,7 +42,7 @@ namespace TextAdventure.MVC
             builder.RegisterType<TextSimplifier>().As<ITextSimplifier>();
             builder.RegisterType<CommandCoordinator>().As<ICommandCoordinator>();
             builder.RegisterType<CommandExecutor>().As<ICommandExecutor>();
-            builder.RegisterType<MockedObjectRepository>().As<IObjectRepository>();
+            builder.RegisterType<ObjectRepository>().As<IObjectRepository>();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

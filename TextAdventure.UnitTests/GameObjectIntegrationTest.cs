@@ -41,6 +41,8 @@ namespace TextAdventure.UnitTests
             wallet.IsOpenable = true;
             wallet.AddRelationship(RelationshipType.IsUnder, RelationshipDirection.ChildToParent, bed);
 
+            bedroom.Contains(wallet);
+
             var money = new GameCurrencyObject("Money",10);
             wallet.AddRelationship(RelationshipType.Contains, RelationshipDirection.ParentToChild, money);
 
@@ -58,8 +60,8 @@ namespace TextAdventure.UnitTests
             details.gameObjectId = mainCharacter.GetCurrentLocation().ID;
 
             var takestatus = parser.ParseInput(details, "take Wallet");
-            Assert.AreEqual(takestatus, "Alfie Drever took Wallet");
-
+            Assert.AreEqual(takestatus, "Alfie Drever takes the Wallet");
+            //TODO: need proper test for assserting that wallet is held by main character
         }
     }
 }

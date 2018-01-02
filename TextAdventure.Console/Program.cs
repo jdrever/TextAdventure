@@ -94,7 +94,7 @@ namespace TextAdventure.ConsoleApp
             builder.RegisterType<TextSimplifier>().As<ITextSimplifier>();
             builder.RegisterType<CommandCoordinator>().As<ICommandCoordinator>();
             builder.RegisterType<CommandExecutor>().As<ICommandExecutor>();
-            builder.RegisterType<MockedObjectRepository>().As<IObjectRepository>();
+            builder.RegisterType<ObjectRepository>().As<IObjectRepository>();
 
             builder.RegisterInstance(gameWorld).As<GameWorld>();
             // Set the dependency resolver to be Autofac.

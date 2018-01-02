@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -172,6 +173,10 @@
     <ProjectReference Include="..\TextAdventure.Application\TextAdventure.Application.csproj">
       <Project>{a00a4dda-ac4a-494a-8604-94fe2b8b853c}</Project>
       <Name>TextAdventure.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextAdventure.Domain\TextAdventure.Domain.csproj">
+      <Project>{47E98B8D-C367-4FE6-94DE-3676F00DFA9A}</Project>
+      <Name>TextAdventure.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TextAdventure.Infrastructure\TextAdventure.Infrastructure.csproj">
       <Project>{3408A9D5-CE6C-4D2F-AA7D-9AB84DC5A3E9}</Project>

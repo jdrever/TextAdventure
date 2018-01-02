@@ -27,7 +27,25 @@ namespace TextAdventure.Domain
             return Relationships.Where(p => p.RelationshipType == RelationshipType.Contains && p.RelationshipDirection == RelationshipDirection.ChildToParent).Select(a => a.RelationshipTo).First();
         }
 
-        public GameBaseObject DefaultHandlingObject { get; set; }
+        private GameBaseObject DefaultHandlingObject;
+
+        public void SetDefaultHandlingObject(GameBaseObject gameObject)
+        {
+            DefaultHandlingObject = gameObject;
+        }
+
+        public bool HasDefaultHandlingObject()
+        {
+            return (!(DefaultHandlingObject == null));
+        }
+
+        public GameBaseObject GetDefaultHandlingObject()
+        {
+            if (DefaultHandlingObject == null)
+                return this;
+            else
+                return DefaultHandlingObject;
+        }
     }
 
 

@@ -76,7 +76,7 @@ namespace TextAdventure.Domain.UnitTest
             var leftHand = new GameObject("Left Hand") { CanHold = true };
             var rightHand = new GameObject("Right Hand") { CanHold = true };
 
-            henry.DefaultHandlingObject = rightHand;
+            henry.SetDefaultHandlingObject(rightHand);
 
             ourRoad.Contains(henry);
 
